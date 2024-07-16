@@ -18,13 +18,13 @@ public class Traveler {
     @Id
     private Integer id;
 
-    @Column(length = 320)
+    @Column(length = 320,nullable = false)
     private String email;
 
     @Column(length = 255)
     private String name;
 
-    @Column(length = 255)
+    @Column(length = 255,nullable = false)
     private String password;
 
     @Column(length = 2048)
