@@ -3,7 +3,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/venturevibe
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: 12345
+    password: Akila@2000
   jpa:
     hibernate:
       ddl-auto: create
@@ -13,3 +13,13 @@ spring:
           format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 10MB
+aws:
+  accessKeyId: AKIA6GBMFEA7FH25MHWR
+  secretKey: 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
+  s3:
+    bucketName: venturevibeimages
+    region: eu-north-1
+
