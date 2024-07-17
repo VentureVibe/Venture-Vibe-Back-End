@@ -1,7 +1,9 @@
 package com.example.back_end;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import java.sql.SQLOutput;
 
@@ -10,8 +12,11 @@ public class BackEndApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackEndApplication.class, args);
-		System.out.println("SD");
-		System.out.println("DD");
 	}
 
+
+	@Bean
+	public ModelMapper modelMapper(){
+		return new ModelMapper();
+	}
 }
