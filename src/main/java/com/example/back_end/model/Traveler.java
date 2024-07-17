@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Traveler {
 
     @Id
-    private Integer id;
+    private String id;
 
     @Column(length = 320,nullable = false)
     private String email;
