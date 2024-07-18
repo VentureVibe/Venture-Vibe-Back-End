@@ -1,12 +1,13 @@
 package com.example.back_end.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,5 +33,16 @@ public class Traveler {
 
     @Column(length = 2048)
     private String coverImg;
+
+    @OneToMany(mappedBy = "traveler")
+    private Set<CommunityPost> comminutyPosts;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostLike> postLikes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostLike> postComments;
 
 }
