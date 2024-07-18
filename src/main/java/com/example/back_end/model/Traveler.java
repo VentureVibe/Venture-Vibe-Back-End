@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -44,5 +45,21 @@ public class Traveler {
     @JsonIgnore
     @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PostLike> postComments;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Message> sentMessages = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Message> receivedMessages = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Conversation> initiatedConversations = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Conversation> receivedConversations = new HashSet<>();
 
 }
