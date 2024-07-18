@@ -38,4 +38,8 @@ public class TravelerService {
         }
         return modelMapper.map(savedTraveler, TravelerDto.class);
     }
+
+    public Traveler findById(String id) {
+        return travelerRepo.findById(id).orElse(null);
+    }
 }
