@@ -1,14 +1,23 @@
 package com.example.back_end.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+import java.util.HashSet;
+import java.util.Set;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -35,6 +44,34 @@ public class Traveler {
     @Column(length = 2048)
     private String coverImg;
 
+
+    @OneToMany(mappedBy = "traveler")
+    private Set<CommunityPost> comminutyPosts;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostLike> postLikes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostLike> postComments;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Message> sentMessages = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Message> receivedMessages = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Conversation> initiatedConversations = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Conversation> receivedConversations = new HashSet<>();
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "traveler_travelplan",
@@ -43,5 +80,6 @@ public class Traveler {
     )
 
     private List<TravelPlan> travelplans = new ArrayList<>();
+
 
 }

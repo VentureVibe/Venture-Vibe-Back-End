@@ -48,6 +48,11 @@ public class TravelerService {
         return modelMapper.map(savedTraveler, TravelerDto.class);
     }
 
+
+    public Traveler findById(String id) {
+        return travelerRepo.findById(id).orElse(null);
+    }
+  
     @Transactional
     public TravelerDto deleteTraveler(String travelerId) {
         try{
@@ -63,6 +68,5 @@ public class TravelerService {
             System.out.println(e);
             throw new DeleteFailed();
         }
-
     }
 }
