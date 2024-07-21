@@ -3,11 +3,9 @@ package com.example.back_end.controller;
 import com.example.back_end.dto.TravelerDto;
 import com.example.back_end.service.TravelerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -17,11 +15,25 @@ public class TravelerController {
     @Autowired
     private TravelerService travelerService;
 
-    @PostMapping
+
+    @GetMapping("/{travelerId}")
+    public ResponseEntity<TravelerDto> getTraveler(@PathVariable String travelerId){
+        return new ResponseEntity<>(travelerService.getTravelerByID(travelerId), HttpStatus.CREATED);
+    }
+
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<TravelerDto> addTraveler(@RequestBody TravelerDto traveler) {
 
         TravelerDto addedProduct = travelerService.addTraveler(traveler);
 
-        return ResponseEntity.created(URI.create("")).body(addedProduct);
+        return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TravelerDto> deleteTraveler(@PathVariable String id) {
+        TravelerDto deleteTraveler = travelerService.deleteTraveler(id);
+        return new ResponseEntity<>(deleteTraveler, HttpStatus.CREATED);
+
     }
 }
