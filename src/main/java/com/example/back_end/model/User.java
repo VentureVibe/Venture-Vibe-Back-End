@@ -11,8 +11,8 @@ public class User {
 
     @Id
     @Column(length = 255)
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    /*@GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")*/
     private String userId;
     @Column(length = 255)
     private String email;
