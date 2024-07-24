@@ -12,6 +12,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value="/api/v1/public/traveler")
 public class TravelerController {
+
     @Autowired
     private TravelerService travelerService;
 
@@ -29,6 +30,7 @@ public class TravelerController {
 
         return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<TravelerDto> deleteTraveler(@PathVariable String id) {

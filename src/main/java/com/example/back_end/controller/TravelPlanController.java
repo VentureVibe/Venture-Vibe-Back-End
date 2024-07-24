@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1/public/travelplan")
@@ -23,6 +24,12 @@ public class TravelPlanController {
     @GetMapping("/{travelerPlanId}")
     public ResponseEntity<TravelPlanDto> getTraveler(@PathVariable Long travelerPlanId){
         return new ResponseEntity<>(travelerPlanService.getTravelerPlanByID(travelerPlanId), HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/traveler/{travelerId}")
+    public ResponseEntity<List<TravelPlanDto>> getTravelPLanBy(@PathVariable String travelerId){
+        return new ResponseEntity<>(travelerPlanService.getTravelPlansByUserId(travelerId), HttpStatus.CREATED);
     }
 
 

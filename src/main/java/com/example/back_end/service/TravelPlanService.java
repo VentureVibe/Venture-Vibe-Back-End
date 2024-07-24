@@ -6,8 +6,10 @@ import com.example.back_end.exception.allreadyexists.AllReadyExists;
 import com.example.back_end.exception.deletefailed.DeleteFailed;
 import com.example.back_end.exception.notfound.NotFound;
 import com.example.back_end.exception.savefailed.SavedFailed;
+import com.example.back_end.model.TravelDate;
 import com.example.back_end.model.TravelPlan;
 import com.example.back_end.model.Traveler;
+import com.example.back_end.repository.TravelDateRepo;
 import com.example.back_end.repository.TravelPlanRepo;
 import com.example.back_end.repository.TravelerRepo;
 import jakarta.transaction.Transactional;
@@ -20,9 +22,12 @@ import org.springframework.stereotype.Service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -36,7 +41,12 @@ public class TravelPlanService {
     @Autowired
     private TravelerRepo travelerRepo;
 
+    @Autowired
+    private TravelDateRepo travelerDateRepo;
+
     private final ModelMapper modelMapper;
+
+
 
     public TravelPlanDto getTravelerPlanByID(Long travelerPlanId){
         TravelPlan travelPlan= travelPlanRepo.findById(travelerPlanId)
@@ -45,16 +55,19 @@ public class TravelPlanService {
     }
 
 
-    public List<TravelPlan> getTravelPlansByUserId(String userId) {
+    public List<TravelPlanDto> getTravelPlansByUserId(String userId) {
 
         Optional<Traveler> travelerOptional = travelerRepo.findById(userId);
         if (travelerOptional.isPresent()) {
             Traveler traveler = travelerOptional.get();
-            return traveler.getTravelplans();
+            return traveler.getTravelplans().stream()
+                    .map(travelPlan -> modelMapper.map(travelPlan, TravelPlanDto.class))
+                    .collect(Collectors.toList());
         } else {
-            throw new RuntimeException("Traveler not found with id: " + userId);
+            throw new NotFound();
         }
     }
+
 
     public TravelPlanDto addTravelPlan(String travelerId, TravelPlanDto travelPlanDto) {
         Traveler traveler;
@@ -79,11 +92,26 @@ public class TravelPlanService {
 
             TravelPlan savedTravelPlan = travelPlanRepo.save(travelPlanEntity);
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate fromDate = LocalDate.parse(travelPlanDto.getFromDate(), formatter);
+            LocalDate toDate = LocalDate.parse(travelPlanDto.getToDate(), formatter);
+            List<TravelDate> travelDates = new ArrayList<>();
+            for (LocalDate date = fromDate; !date.isAfter(toDate); date = date.plusDays(1)) {
+                TravelDate travelDate = new TravelDate();
+                travelDate.setDate(date.toString());
+                travelDate.setTravelPlan(savedTravelPlan);
+                travelDates.add(travelDate);
+            }
+            travelerDateRepo.saveAll(travelDates);
+
+
+
             return modelMapper.map(savedTravelPlan, TravelPlanDto.class);
         } catch (NotFound e) {
             throw new NotFound();
         }
         catch (Exception ee) {
+            System.out.println(ee);
             throw new SavedFailed();
         }
     }

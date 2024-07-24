@@ -72,13 +72,14 @@ public class Traveler {
     @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Conversation> receivedConversations = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "traveler_travelplan",
             joinColumns = @JoinColumn(name = "traveler_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "travelplan_id", referencedColumnName = "id")
     )
-
+    @JsonManagedReference
     private List<TravelPlan> travelplans = new ArrayList<>();
 
 

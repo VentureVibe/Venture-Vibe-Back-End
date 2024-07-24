@@ -1,6 +1,7 @@
 package com.example.back_end.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,4 +44,7 @@ public class TravelPlan {
     @ManyToMany(mappedBy = "travelplans")
     @JsonBackReference
     private List<Traveler> travelers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TravelDate> travelDates = new ArrayList<>();
 }

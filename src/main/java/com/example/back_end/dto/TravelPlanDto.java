@@ -1,5 +1,6 @@
 package com.example.back_end.dto;
 
+import com.example.back_end.model.TravelDate;
 import com.example.back_end.model.Traveler;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,4 +33,5 @@ public class TravelPlanDto {
     private String toDate;
 
     private List<Traveler> travelers;
+    private List<TravelDate> travelDates;
 }
