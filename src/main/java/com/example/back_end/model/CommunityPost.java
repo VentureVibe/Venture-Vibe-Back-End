@@ -29,12 +29,13 @@ public class CommunityPost {
     @Column(length = 2048)
     private String imgUrl;
 
-    @Column(name = "user_id")
-    private String userId;
+
+    private Integer totalLikes = 0;
+    private Integer totalComments = 0;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "traveler_id", insertable = false, updatable = false, nullable = false)
     private Traveler traveler;
 
     @JsonIgnore
