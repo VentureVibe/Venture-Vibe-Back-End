@@ -7,7 +7,9 @@ import com.example.back_end.repository.TravelerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +20,20 @@ public class CommunityPostService {
     private CommunityPostRepo communityPostRepo;
 
     @Autowired
+    ImageService imageService;
+
+    @Autowired
     private TravelerRepo travelerRepo;
 
     @Transactional
-    public CommunityPost addCommunityPost(CommunityPost communityPost) {
+    public CommunityPost addCommunityPost(CommunityPost communityPost, MultipartFile image) throws IOException {
+      
+        // Upload image to S3 and get the URL
+        String imageUrl = imageService.uploadImage(image,"communityPost");
+
+        // Set the image URL in the community post
+        communityPost.setImgUrl(imageUrl);
+      
         if (communityPost == null) {
             throw new IllegalArgumentException("CommunityPost cannot be null");
         }
@@ -33,7 +45,6 @@ public class CommunityPostService {
 
         // Set the traveler
         communityPost.setTraveler(traveler);
-
         return communityPostRepo.save(communityPost);
     }
 
