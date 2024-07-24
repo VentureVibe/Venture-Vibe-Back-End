@@ -1,7 +1,9 @@
 package com.example.back_end.service;
 
 import com.example.back_end.model.CommunityPost;
+import com.example.back_end.model.Traveler;
 import com.example.back_end.repository.CommunityPostRepo;
+import com.example.back_end.repository.TravelerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +15,25 @@ import java.util.Optional;
 public class CommunityPostService {
 
     @Autowired
-    CommunityPostRepo communityPostRepo;
+    private CommunityPostRepo communityPostRepo;
 
+    @Autowired
+    private TravelerRepo travelerRepo;
+
+    @Transactional
     public CommunityPost addCommunityPost(CommunityPost communityPost) {
+        if (communityPost == null) {
+            throw new IllegalArgumentException("CommunityPost cannot be null");
+        }
+
+        // Fetch the traveler
+        String travelerId = communityPost.getUserId();
+        Traveler traveler = travelerRepo.findById(travelerId)
+                .orElseThrow(() -> new IllegalArgumentException("Traveler not found with ID: " + travelerId));
+
+        // Set the traveler
+        communityPost.setTraveler(traveler);
+
         return communityPostRepo.save(communityPost);
     }
 
@@ -43,10 +61,6 @@ public class CommunityPostService {
     public List<CommunityPost> getAllCommunityPosts() {
         return communityPostRepo.findAll();
     }
-
-//    public Optional<CommunityPost> getCommunityPost(Integer id) {
-//        return communityPostRepo.findById(id);
-//    }
 
     public CommunityPost getCommunityPost(Integer id) {
         return communityPostRepo.findById(id)
