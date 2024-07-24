@@ -5,7 +5,9 @@ import com.example.back_end.repository.CommunityPostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +17,20 @@ public class CommunityPostService {
     @Autowired
     CommunityPostRepo communityPostRepo;
 
-    public CommunityPost addCommunityPost(CommunityPost communityPost) {
+    @Autowired
+    ImageService imageService;
+
+    /*public CommunityPost addCommunityPost(CommunityPost communityPost) {
+        return communityPostRepo.save(communityPost);
+    }*/
+    public CommunityPost addCommunityPost(CommunityPost communityPost, MultipartFile image) throws IOException {
+        // Upload image to S3 and get the URL
+        String imageUrl = imageService.uploadImage(image,"communityPost");
+
+        // Set the image URL in the community post
+        communityPost.setImgUrl(imageUrl);
+
+        // Save the community post in the database
         return communityPostRepo.save(communityPost);
     }
 
