@@ -26,7 +26,7 @@ public class CommunityPostController {
     }
 
     @GetMapping("/{id}")
-    public Optional<CommunityPost> getCommunityPost(@PathVariable Integer id) {
+    public CommunityPost getCommunityPost(@PathVariable Integer id) {
         return communityPostService.getCommunityPost(id);
     }
 

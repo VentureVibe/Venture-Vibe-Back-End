@@ -16,7 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostLikeService {
 
     @Autowired
-    PostLikeRepo postLikeRepo;
+    private PostLikeRepo postLikeRepo;
+
+    @Autowired
+    private CommunityPostService communityPostService;
 
     @Transactional
     public PostLikeDTO addPostLike(PostLike postLike) {
@@ -30,9 +33,12 @@ public class PostLikeService {
                 throw new PostLikeAlreadyExistsException("PostLike already exists for the given post and traveler");
             }
 
-            CommunityPost post = postLike.getPost();
-            post.addPostLike(postLike);
+            // Get the post to update its like count
+            CommunityPost post = communityPostService.getCommunityPost(postLike.getPost().getId());
+            post.setTotalLikes(post.getTotalLikes() + 1);
+            communityPostService.updateCommunityPost(post.getId(), post);
 
+            // Save the PostLike
             postLikeRepo.save(postLike);
 
             return new PostLikeDTO(postLike.getId(), postLike.getPost().getId(), postLike.getTraveler().getId());
