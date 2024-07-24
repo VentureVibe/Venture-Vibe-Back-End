@@ -45,7 +45,7 @@ public class Traveler {
     private String coverImg;
 
 
-    @OneToMany(mappedBy = "traveler")
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CommunityPost> comminutyPosts;
 
     @JsonIgnore
@@ -82,5 +82,11 @@ public class Traveler {
     @JsonManagedReference
     private List<TravelPlan> travelplans = new ArrayList<>();
 
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<FollowingList> followingLists;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Follower> followers = new HashSet<>();
 }
