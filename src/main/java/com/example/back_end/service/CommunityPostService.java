@@ -1,7 +1,9 @@
 package com.example.back_end.service;
 
 import com.example.back_end.model.CommunityPost;
+import com.example.back_end.model.Traveler;
 import com.example.back_end.repository.CommunityPostRepo;
+import com.example.back_end.repository.TravelerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,22 +17,34 @@ import java.util.Optional;
 public class CommunityPostService {
 
     @Autowired
-    CommunityPostRepo communityPostRepo;
+    private CommunityPostRepo communityPostRepo;
 
     @Autowired
     ImageService imageService;
 
-    /*public CommunityPost addCommunityPost(CommunityPost communityPost) {
-        return communityPostRepo.save(communityPost);
-    }*/
+    @Autowired
+    private TravelerRepo travelerRepo;
+
+    @Transactional
     public CommunityPost addCommunityPost(CommunityPost communityPost, MultipartFile image) throws IOException {
+      
         // Upload image to S3 and get the URL
         String imageUrl = imageService.uploadImage(image,"communityPost");
 
         // Set the image URL in the community post
         communityPost.setImgUrl(imageUrl);
+      
+        if (communityPost == null) {
+            throw new IllegalArgumentException("CommunityPost cannot be null");
+        }
 
-        // Save the community post in the database
+        // Fetch the traveler
+        String travelerId = communityPost.getUserId();
+        Traveler traveler = travelerRepo.findById(travelerId)
+                .orElseThrow(() -> new IllegalArgumentException("Traveler not found with ID: " + travelerId));
+
+        // Set the traveler
+        communityPost.setTraveler(traveler);
         return communityPostRepo.save(communityPost);
     }
 
@@ -58,10 +72,6 @@ public class CommunityPostService {
     public List<CommunityPost> getAllCommunityPosts() {
         return communityPostRepo.findAll();
     }
-
-//    public Optional<CommunityPost> getCommunityPost(Integer id) {
-//        return communityPostRepo.findById(id);
-//    }
 
     public CommunityPost getCommunityPost(Integer id) {
         return communityPostRepo.findById(id)
