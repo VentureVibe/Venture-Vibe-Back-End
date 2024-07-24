@@ -22,12 +22,34 @@ public class MessageService {
     private ConversationRepository conversationRepository;
 
     @Autowired
+    private ConversationService conversationService;
+
+    @Autowired
     private TravelerRepo userRepository;
 
     public Message sendMessage(Message message) {
-        Conversation conversation = conversationRepository.findById(message.getConversation().getId()).orElse(null);
+        Conversation conversation = null;
+
+        if (message.getConversation() != null && message.getConversation().getId() != null) {
+            conversation = conversationRepository.findById(message.getConversation().getId()).orElse(null);
+        }
+
         if (conversation == null) {
-            throw new IllegalArgumentException("Conversation not found");
+            Traveler sender = userRepository.findById(message.getSender().getId()).orElse(null);
+            if (sender == null) {
+                throw new IllegalArgumentException("Sender not found");
+            }
+
+            Traveler recipient = userRepository.findById(message.getRecipient().getId()).orElse(null);
+            if (recipient == null) {
+                throw new IllegalArgumentException("Recipient not found");
+            }
+
+            // Create new conversation
+            Conversation newConversation = new Conversation();
+            newConversation.setUser1(sender);
+            newConversation.setUser2(recipient);
+            conversation = conversationService.startConversation(newConversation);
         }
 
         Traveler sender = userRepository.findById(message.getSender().getId()).orElse(null);
@@ -37,11 +59,8 @@ public class MessageService {
 
         Traveler recipient = conversation.getUser1().equals(sender) ? conversation.getUser2() : conversation.getUser1();
 
-        //Message message = new Message();
-        //message.setSender(sender);
         message.setRecipient(recipient);
-        //message.setConversation(conversation);
-        //message.setContent(message.getContent());
+        message.setConversation(conversation);
         message.setTimestamp(LocalDateTime.now());
 
         return messageRepository.save(message);
@@ -51,5 +70,3 @@ public class MessageService {
         return messageRepository.findByConversationId(conversationId);
     }
 }
-
-

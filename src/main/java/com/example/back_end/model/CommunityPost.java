@@ -1,6 +1,7 @@
 package com.example.back_end.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,9 @@ public class CommunityPost {
 
     @Column(name = "user_id")
     private String userId;
+
+    private Integer totalLikes = 0;
+    private Integer totalComments = 0;
 
     @JsonIgnore
     @ManyToOne
