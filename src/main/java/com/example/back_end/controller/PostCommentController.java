@@ -20,18 +20,14 @@ public class PostCommentController {
     PostCommentService postCommentService;
 
     @PostMapping
-    public ResponseEntity<PostCommentDTO> createPostComment(@RequestBody PostComment postComment) {
-        PostCommentDTO createdPostComment = postCommentService.addPostComment(postComment);
-        return new ResponseEntity<>(createdPostComment, HttpStatus.CREATED);
+    public PostComment createPostComment(@RequestBody PostComment postComment) {
+        return postCommentService.addPostComment(postComment);
+        //return new ResponseEntity<>(createdPostComment, HttpStatus.CREATED);
     }
 
     @GetMapping("/{postid}")
-    public ResponseEntity<List<PostCommentDTO>> getPostCommentsByPostId(@PathVariable Integer postid) {
-        List<PostCommentDTO> postComments = postCommentService.getPostCommentsByPostId(postid);
-        if (postComments.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(postComments, HttpStatus.OK);
+    public List<PostComment> getPostCommentsByPostId(@PathVariable Integer postid) {
+        return postCommentService.getPostCommentsByPostId(postid);
     }
 
     @DeleteMapping("/{id}")
