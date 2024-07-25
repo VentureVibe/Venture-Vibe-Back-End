@@ -34,12 +34,27 @@ public class TravelerService {
 
     public TravelerDto addTraveler(TravelerDto travelerDto) {
 
-        if (travelerRepo.findById(travelerDto.getId()).isPresent()) {
+        /*if (travelerRepo.findById(travelerDto.getId()).isPresent()) {
             throw new AllReadyExists(travelerDto.getId());
+        }*/
+        if (travelerRepo.findByEmail(travelerDto.getEmail()) != null) {
+            throw new AllReadyExists(travelerDto.getEmail());
         }
 
         Traveler savedTraveler;
         try {
+            if(travelerDto.getProfileImg() == null) {
+                travelerDto.setProfileImg("https://venturevibeimages.s3.eu-north-1.amazonaws.com/OIP-removebg-preview.png");
+            }
+            if(travelerDto.getCoverImg() == null) {
+                travelerDto.setCoverImg("https://venturevibeimages.s3.eu-north-1.amazonaws.com/OIP-removebg-preview.png");
+            }
+            if(travelerDto.getRole() == null) {
+                travelerDto.setRole("Traveler");
+            }
+            if(travelerDto.getPassword() == null) {
+                travelerDto.setPassword("12345");
+            }
             savedTraveler = travelerRepo.save(modelMapper.map(travelerDto, Traveler.class));
         }
         catch (Exception e) {

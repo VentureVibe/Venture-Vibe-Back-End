@@ -24,6 +24,8 @@ public class TravelerDto {
 
     private String password;
 
+    private String role;
+
     private String profileImg;
 
     private String coverImg;
