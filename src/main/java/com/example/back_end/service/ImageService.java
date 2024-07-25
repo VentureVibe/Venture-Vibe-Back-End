@@ -34,7 +34,7 @@ public class ImageService {
                     .build(),
                     RequestBody.fromBytes(file.getBytes()));
 
-            String imageUrl = "https://" + bucketName + ".s3" + region + ".amazonaws.com/" + key;
+            String imageUrl = "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + key;
             return imageUrl;
         } catch (S3Exception e) {
             e.printStackTrace();

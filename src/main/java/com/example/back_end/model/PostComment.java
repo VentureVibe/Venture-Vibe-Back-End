@@ -27,5 +27,5 @@ public class PostComment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Traveler traveler;
+    private Traveler usercommented;
 }

@@ -5,7 +5,9 @@ import com.example.back_end.exception.postcomment.PostCommentException;
 import com.example.back_end.exception.postcomment.PostCommentSaveException;
 import com.example.back_end.model.CommunityPost;
 import com.example.back_end.model.PostComment;
+import com.example.back_end.model.Traveler;
 import com.example.back_end.repository.PostCommentRepo;
+import com.example.back_end.repository.TravelerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -19,22 +21,32 @@ import java.util.stream.Collectors;
 public class PostCommentService {
 
     @Autowired
-    PostCommentRepo postCommentRepo;
+    private PostCommentRepo postCommentRepo;
+
+    @Autowired
+    private TravelerRepo travelerRepo;
+
+    @Autowired
+    private CommunityPostService communityPostService;
 
     @Transactional
-    public PostCommentDTO addPostComment(PostComment postComment) {
+    public PostComment addPostComment(PostComment postComment) {
         if (postComment == null) {
             throw new IllegalArgumentException("PostComment cannot be null");
         }
 
         try {
 
-            CommunityPost post = postComment.getPost();
-            post.addPostComment(postComment);
+            CommunityPost post = communityPostService.getCommunityPost(postComment.getPost().getId());
+            post.setTotalComments(post.getTotalComments() + 1);
+            communityPostService.updateCommunityPost(post.getId(), post);
+            
+            Optional<Traveler> user = travelerRepo.findById(postComment.getUsercommented().getId());
+            postComment.setUsercommented(user.orElseThrow(() -> new IllegalArgumentException("User not found")));
 
-            postCommentRepo.save(postComment);
 
-            return new PostCommentDTO(postComment.getId(), postComment.getComment(), postComment.getPost().getId(), postComment.getTraveler().getId());
+            return postCommentRepo.save(postComment);
+
         } catch (DataAccessException dae) {
             throw new PostCommentSaveException("Failed to save PostComment due to database error");
         } catch (Exception e) {
@@ -42,12 +54,9 @@ public class PostCommentService {
         }
     }
 
-    public List<PostCommentDTO> getPostCommentsByPostId(Integer postId) {
+    public List<PostComment> getPostCommentsByPostId(Integer postId) {
         try {
-            List<PostComment> postComments = postCommentRepo.findByPostId(postId);
-            return postComments.stream()
-                    .map(comment -> new PostCommentDTO(comment.getId(), comment.getComment(), comment.getPost().getId(), comment.getTraveler().getId()))
-                    .collect(Collectors.toList());
+            return postCommentRepo.findByPostId(postId);
         }  catch (Exception e) {
             throw new PostCommentException("Failed to retrieve PostComment due to database error");
         }
