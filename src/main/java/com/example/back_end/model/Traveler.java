@@ -58,8 +58,8 @@ public class Traveler {
     private Set<PostLike> postLikes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PostLike> postComments;
+    @OneToMany(mappedBy = "usercommented", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostComment> postComments = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)

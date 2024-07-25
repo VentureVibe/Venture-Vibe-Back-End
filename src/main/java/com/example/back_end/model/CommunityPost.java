@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class CommunityPost {
 
     private Integer totalLikes = 0;
     private Integer totalComments = 0;
+    private LocalDateTime createdAt;
 
     @JsonIgnore
     @ManyToOne

@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostLikeDTO {
-    private Integer id;
+    //private Integer id;
     private Integer postId;
     private String travelerId;
 }
