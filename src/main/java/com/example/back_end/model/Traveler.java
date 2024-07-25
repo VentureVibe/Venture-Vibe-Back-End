@@ -50,7 +50,7 @@ public class Traveler {
     private String coverImg;
 
 
-    @OneToMany(mappedBy = "traveler")
+    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CommunityPost> comminutyPosts;
 
     @JsonIgnore
