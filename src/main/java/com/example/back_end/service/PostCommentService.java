@@ -40,7 +40,7 @@ public class PostCommentService {
             CommunityPost post = communityPostService.getCommunityPost(postComment.getPost().getId());
             post.setTotalComments(post.getTotalComments() + 1);
             communityPostService.updateCommunityPost(post.getId(), post);
-            
+
             Optional<Traveler> user = travelerRepo.findById(postComment.getUsercommented().getId());
             postComment.setUsercommented(user.orElseThrow(() -> new IllegalArgumentException("User not found")));
 
