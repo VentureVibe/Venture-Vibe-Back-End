@@ -38,7 +38,8 @@ public class TravelerService {
             throw new AllReadyExists(travelerDto.getId());
         }*/
         if (travelerRepo.findByEmail(travelerDto.getEmail()) != null) {
-            throw new AllReadyExists(travelerDto.getEmail());
+            //throw new AllReadyExists(travelerDto.getEmail());
+            return null;
         }
 
         Traveler savedTraveler;
