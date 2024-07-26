@@ -90,6 +90,10 @@ public class TravelPlanService {
 
             traveler.getTravelplans().add(travelPlanEntity);
 
+            // Set the travel plan owner
+
+            travelPlanEntity.setTravelPlanOwner(traveler);
+
             TravelPlan savedTravelPlan = travelPlanRepo.save(travelPlanEntity);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -104,17 +108,15 @@ public class TravelPlanService {
             }
             travelerDateRepo.saveAll(travelDates);
 
-
-
             return modelMapper.map(savedTravelPlan, TravelPlanDto.class);
         } catch (NotFound e) {
             throw new NotFound();
-        }
-        catch (Exception ee) {
+        } catch (Exception ee) {
             System.out.println(ee);
             throw new SavedFailed();
         }
     }
+
 
 
     @Transactional

@@ -33,11 +33,13 @@ public class TravelPlanController {
     }
 
 
-    @PostMapping("/{travelerId}")
+    @PostMapping(value = "/{travelerId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<TravelPlanDto> createTravelPlan(@PathVariable String travelerId, @RequestBody TravelPlanDto travelPlan) {
         TravelPlanDto createdTravelPlan = travelerPlanService.addTravelPlan(travelerId, travelPlan);
         return new ResponseEntity<>(createdTravelPlan, HttpStatus.CREATED);
     }
+
+
 
     @DeleteMapping("/{travelPlanId}")
     public ResponseEntity<TravelPlanDto> deleteTravelPlan(@PathVariable Long travelPlanId) {

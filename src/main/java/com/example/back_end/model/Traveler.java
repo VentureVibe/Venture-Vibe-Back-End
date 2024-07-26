@@ -89,4 +89,9 @@ public class Traveler {
     @JsonIgnore
     @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Follower> followers = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "travelPlanOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "owner-travelplan")
+    private Set<TravelPlan> ownedTravelPlans = new HashSet<>();
 }

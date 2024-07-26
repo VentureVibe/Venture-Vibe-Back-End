@@ -34,4 +34,5 @@ public class TravelPlanDto {
 
     private List<Traveler> travelers;
     private List<TravelDate> travelDates;
+    private Traveler travelPlanOwner;
 }

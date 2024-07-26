@@ -3,10 +3,7 @@ package com.example.back_end.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +38,19 @@ public class TravelPlan {
     @Column(nullable = false)
     private String toDate;
 
+    @Column(length = 2048)
+    private String imgUrl;
+
     @ManyToMany(mappedBy = "travelplans")
     @JsonBackReference
     private List<Traveler> travelers = new ArrayList<>();
 
     @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TravelDate> travelDates = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name ="travelplanOwner")
+    @JsonBackReference(value = "owner-travelplan")
+
+    private Traveler travelPlanOwner;
 }
