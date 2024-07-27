@@ -9,5 +9,9 @@ import java.util.List;
 @Repository
 public interface TravelerRepo extends JpaRepository<Traveler,String> {
 
+
     List<Traveler> findByEmailContainingIgnoreCase(String emailPart);
+
+    Traveler findByEmail(String email);
+
 }

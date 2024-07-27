@@ -3,6 +3,7 @@ package com.example.back_end.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Traveler {
 
     @Id
@@ -35,8 +37,11 @@ public class Traveler {
     @Column(length = 255)
     private String name;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255/*, nullable = false*/)
     private String password;
+
+    @Column(length = 255)
+    private String role;
 
     @Column(length = 2048)
     private String profileImg;
@@ -53,8 +58,8 @@ public class Traveler {
     private Set<PostLike> postLikes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PostLike> postComments;
+    @OneToMany(mappedBy = "usercommented", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostComment> postComments = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
