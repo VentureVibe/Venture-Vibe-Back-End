@@ -11,9 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
-@RequestMapping(value="/api/v1/public/travelplan")
+@RequestMapping(value="/api/v1/travelplan")
+@CrossOrigin(origins = "http://localhost:5173")
 public class TravelPlanController {
 
     @Autowired
@@ -26,11 +28,19 @@ public class TravelPlanController {
     }
 
 
-    @PostMapping("/{travelerId}")
+    @GetMapping("/traveler/{travelerId}")
+    public ResponseEntity<List<TravelPlanDto>> getTravelPLanBy(@PathVariable String travelerId){
+        return new ResponseEntity<>(travelerPlanService.getTravelPlansByUserId(travelerId), HttpStatus.CREATED);
+    }
+
+
+    @PostMapping(value = "/{travelerId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<TravelPlanDto> createTravelPlan(@PathVariable String travelerId, @RequestBody TravelPlanDto travelPlan) {
         TravelPlanDto createdTravelPlan = travelerPlanService.addTravelPlan(travelerId, travelPlan);
         return new ResponseEntity<>(createdTravelPlan, HttpStatus.CREATED);
     }
+
+
 
     @DeleteMapping("/{travelPlanId}")
     public ResponseEntity<TravelPlanDto> deleteTravelPlan(@PathVariable Long travelPlanId) {

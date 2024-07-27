@@ -17,7 +17,7 @@ public class SavedFailedAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, String> handleSavedFailed(SavedFailed exception) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("errorMessage", exception.getMessage());
+        errorMap.put("message", exception.getMessage());
         errorMap.put("status", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
         return errorMap;
     }

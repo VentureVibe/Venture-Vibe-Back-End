@@ -14,7 +14,7 @@ public class DeleteFailedAdvice {
     public Map<String,String> exceptionHandler(DeleteFailed exception){
 
         Map<String,String> errorMap=new HashMap<>();
-        errorMap.put("errorMessage",exception.getMessage());
+        errorMap.put("message",exception.getMessage());
         errorMap.put("status", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
         return errorMap;
     }
