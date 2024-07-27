@@ -73,7 +73,7 @@ public class Traveler {
     private Set<Conversation> receivedConversations = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "traveler_travelplan",
             joinColumns = @JoinColumn(name = "traveler_id", referencedColumnName = "id"),
@@ -81,6 +81,8 @@ public class Traveler {
     )
     @JsonManagedReference
     private List<TravelPlan> travelplans = new ArrayList<>();
+
+
 
     @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -94,4 +96,11 @@ public class Traveler {
     @OneToMany(mappedBy = "travelPlanOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "owner-travelplan")
     private Set<TravelPlan> ownedTravelPlans = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "travelPlanInvitee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "travelplan-invitee")
+    private Set<TravelInvitation> travelPlanInvitation = new HashSet<>();
+
+
 }

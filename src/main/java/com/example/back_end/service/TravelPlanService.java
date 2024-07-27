@@ -1,8 +1,6 @@
 package com.example.back_end.service;
 
 import com.example.back_end.dto.TravelPlanDto;
-import com.example.back_end.dto.TravelerDto;
-import com.example.back_end.exception.allreadyexists.AllReadyExists;
 import com.example.back_end.exception.deletefailed.DeleteFailed;
 import com.example.back_end.exception.notfound.NotFound;
 import com.example.back_end.exception.savefailed.SavedFailed;
@@ -19,15 +17,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 @Slf4j
@@ -43,6 +39,9 @@ public class TravelPlanService {
 
     @Autowired
     private TravelDateRepo travelerDateRepo;
+
+    @Autowired
+    private TravelInvitationService travelInvitationService;
 
     private final ModelMapper modelMapper;
 
@@ -68,7 +67,7 @@ public class TravelPlanService {
         }
     }
 
-
+    @Transactional
     public TravelPlanDto addTravelPlan(String travelerId, TravelPlanDto travelPlanDto) {
         Traveler traveler;
         try {
@@ -94,7 +93,23 @@ public class TravelPlanService {
 
             travelPlanEntity.setTravelPlanOwner(traveler);
 
+
+
             TravelPlan savedTravelPlan = travelPlanRepo.save(travelPlanEntity);
+
+            List<String> travelInviteList = travelPlanDto.getTravelInviteList();
+
+            if (travelInviteList != null && !travelInviteList.isEmpty()) {
+                for (String travelerId2 : travelInviteList) {
+                    Traveler traveler2 = travelerRepo.findById(travelerId)
+                            .orElseThrow(() -> new NotFound());
+
+                    travelInvitationService.addTravelInvitation(savedTravelPlan.getId(),traveler2.getId());
+                }
+            }
+
+
+
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate fromDate = LocalDate.parse(travelPlanDto.getFromDate(), formatter);

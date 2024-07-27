@@ -14,7 +14,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/api/v1/public/travelplan")
+@RequestMapping(value="/api/v1/travelplan")
+@CrossOrigin(origins = "http://localhost:5173")
 public class TravelPlanController {
 
     @Autowired

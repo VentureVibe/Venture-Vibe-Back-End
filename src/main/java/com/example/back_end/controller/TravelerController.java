@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1/public/traveler")
@@ -20,6 +21,11 @@ public class TravelerController {
     @GetMapping("/{travelerId}")
     public ResponseEntity<TravelerDto> getTraveler(@PathVariable String travelerId){
         return new ResponseEntity<>(travelerService.getTravelerByID(travelerId), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/emailpartially/{email}")
+    public ResponseEntity<List<TravelerDto>> getTravelerByEmailPartially(@PathVariable String email){
+        return new ResponseEntity<>(travelerService.getTravelerByEmailPartially(email), HttpStatus.CREATED);
     }
 
 

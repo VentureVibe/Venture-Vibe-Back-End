@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +32,11 @@ public class TravelerService {
 
 
     public  TravelerDto getTravelerByID(String travelerId){
-        System.out.println("s");
+
         Traveler traveler= travelerRepo.findById(travelerId)
                         .orElseThrow(() -> new DeleteFailed());
         return modelMapper.map(traveler, TravelerDto.class);
     }
-
-
 
 
     public TravelerDto addTraveler(TravelerDto travelerDto) {
@@ -77,4 +76,16 @@ public class TravelerService {
             throw new DeleteFailed();
         }
     }
+
+
+    public List<TravelerDto> getTravelerByEmailPartially(String email) {
+        try {
+            List<Traveler> travelers = travelerRepo.findByEmailContainingIgnoreCase(email);
+            return modelMapper.map(travelers , new TypeToken<List<TravelerDto>>(){}.getType());
+
+        } catch (Exception e) {
+            throw new NotFound();
+        }
+    }
+
 }
