@@ -15,6 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -47,11 +51,23 @@ public class TravelPlanService {
 
 
 
-    public TravelPlanDto getTravelerPlanByID(Long travelerPlanId){
-        TravelPlan travelPlan= travelPlanRepo.findById(travelerPlanId)
+    public TravelPlanDto getTravelerPlanByID(Long travelerPlanId, String travelerId) {
+        // Retrieve the TravelPlan by its ID
+        TravelPlan travelPlan = travelPlanRepo.findById(travelerPlanId)
                 .orElseThrow(() -> new NotFound());
+
+        // Check if the provided travelerId is in the list of travelers
+        boolean isTravelerPresent = travelPlan.getTravelers().stream()
+                .anyMatch(traveler -> traveler.getId().equals(travelerId));
+
+        if (!isTravelerPresent) {
+            throw new NotFound();
+        }
+
+        // Map the TravelPlan entity to TravelPlanDto
         return modelMapper.map(travelPlan, TravelPlanDto.class);
     }
+
 
 
     public List<TravelPlanDto> getTravelPlansByUserId(String userId) {
@@ -67,9 +83,67 @@ public class TravelPlanService {
         }
     }
 
+
+    public Page<TravelPlanDto> getAcceptedTravelPlansByUserId(String userId, int page, int size) {
+        Optional<Traveler> travelerOptional = travelerRepo.findById(userId);
+        if (travelerOptional.isPresent()) {
+            Traveler traveler = travelerOptional.get();
+            List<TravelPlanDto> acceptedPlans = traveler.getTravelplans().stream()
+                    .filter(travelPlan ->
+                            travelPlan.getTravelers().stream()
+                                    .anyMatch(t -> t.getId().equals(userId)) &&
+                                    !travelPlan.getTravelPlanOwner().getId().equals(userId)
+                    )
+                    .map(travelPlan -> modelMapper.map(travelPlan, TravelPlanDto.class))
+                    .collect(Collectors.toList());
+
+            // Creating a Pageable object
+            Pageable pageable = PageRequest.of(page, size);
+
+            // Getting the sublist based on pagination parameters
+            int start = (int) pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), acceptedPlans.size());
+            List<TravelPlanDto> sublist = acceptedPlans.subList(start, end);
+
+            // Returning the Page object
+            return new PageImpl<>(sublist, pageable, acceptedPlans.size());
+        } else {
+            throw new NotFound();
+        }
+    }
+
+
+
+
+    public Page<TravelPlanDto> getOwnedTravelPlansByUserId(String userId, int page, int size) {
+        Optional<Traveler> travelerOptional = travelerRepo.findById(userId);
+        if (travelerOptional.isPresent()) {
+            Traveler traveler = travelerOptional.get();
+            List<TravelPlanDto> ownedPlans = traveler.getTravelplans().stream()
+                    .filter(travelPlan -> travelPlan.getTravelPlanOwner().getId().equals(userId)) // Filter to only owned plans
+                    .map(travelPlan -> modelMapper.map(travelPlan, TravelPlanDto.class))
+                    .collect(Collectors.toList());
+
+            // Creating a Pageable object
+            Pageable pageable = PageRequest.of(page, size);
+
+            // Getting the sublist based on pagination parameters
+            int start = (int) pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), ownedPlans.size());
+            List<TravelPlanDto> sublist = ownedPlans.subList(start, end);
+
+            // Returning the Page object
+            return new PageImpl<>(sublist, pageable, ownedPlans.size());
+        } else {
+            throw new NotFound();
+        }
+    }
+
+
     @Transactional
     public TravelPlanDto addTravelPlan(String travelerId, TravelPlanDto travelPlanDto) {
         Traveler traveler;
+        System.out.println(travelPlanDto);
         try {
             traveler = travelerRepo.findById(travelerId)
                     .orElseThrow(() -> new NotFound());
@@ -101,7 +175,8 @@ public class TravelPlanService {
 
             if (travelInviteList != null && !travelInviteList.isEmpty()) {
                 for (String travelerId2 : travelInviteList) {
-                    Traveler traveler2 = travelerRepo.findById(travelerId)
+                   
+                    Traveler traveler2 = travelerRepo.findById(travelerId2)
                             .orElseThrow(() -> new NotFound());
 
                     travelInvitationService.addTravelInvitation(savedTravelPlan.getId(),traveler2.getId());
