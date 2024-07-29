@@ -50,5 +50,9 @@ public class FollowingController {
         followerService.deleteFollowerByTravelerIdAndFollowedTravelerId(travelerId, followedTravelerId);
     }
 
+    @DeleteMapping("/unfollow/{followedTravelerId}/{travelerId}")
+    public void unfollowFollower(@PathVariable String followedTravelerId, @PathVariable String travelerId) {
+        followerService.deleteFollowerByTravelerIdAndFollowedTravelerId(followedTravelerId, travelerId);
+    }
 
 }

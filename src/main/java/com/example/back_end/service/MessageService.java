@@ -6,6 +6,7 @@ import com.example.back_end.model.Traveler;
 import com.example.back_end.repository.ConversationRepository;
 import com.example.back_end.repository.MessageRepository;
 import com.example.back_end.repository.TravelerRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class MessageService {
     @Autowired
     private TravelerRepo userRepository;
 
+    @Transactional
     public Message sendMessage(Message message) {
         // Fetch the conversation between the sender and recipient, if it exists
         Conversation conversation = conversationService.getConversationByUser1IdAndUser2Id(
