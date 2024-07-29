@@ -50,7 +50,7 @@ public class TravelInvitationController {
             Page<TravelInviteDTO> travelInvitationPage = travelInvitationService.getTravelInvitationsByTravelerId(travelerId, page, size);
             return new ResponseEntity<>(travelInvitationPage, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e);            throw new SavedFailed();
+             throw new SavedFailed();
         }
     }
 

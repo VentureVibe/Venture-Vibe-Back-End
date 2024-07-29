@@ -1,11 +1,13 @@
 package com.example.back_end.controller;
 
+import com.example.back_end.dto.TravelInviteDTO;
 import com.example.back_end.dto.TravelPlanDto;
 import com.example.back_end.dto.TravelerDto;
 
 import com.example.back_end.model.TravelPlan;
 import com.example.back_end.service.TravelPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +24,28 @@ public class TravelPlanController {
     private TravelPlanService travelerPlanService;
 
 
-    @GetMapping("/{travelerPlanId}")
-    public ResponseEntity<TravelPlanDto> getTraveler(@PathVariable Long travelerPlanId){
-        return new ResponseEntity<>(travelerPlanService.getTravelerPlanByID(travelerPlanId), HttpStatus.CREATED);
+    @GetMapping("/{travelerPlanId}/{travelerId}")
+    public ResponseEntity<TravelPlanDto> getTraveler(
+            @PathVariable Long travelerPlanId,
+            @PathVariable String travelerId) {
+        return new ResponseEntity<>(travelerPlanService.getTravelerPlanByID(travelerPlanId, travelerId), HttpStatus.OK);
+    }
+
+
+
+    @GetMapping("/accepeted/{travelerId}")
+    public ResponseEntity<Page<TravelPlanDto>> getAcceptedTravelPlansByUserId(@PathVariable String travelerId,
+                                                                              @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                              @RequestParam(value = "size", defaultValue = "10") int size){
+        Page<TravelPlanDto> travelPlanPage=travelerPlanService.getAcceptedTravelPlansByUserId(travelerId,page,size);
+        return new ResponseEntity<>(travelPlanPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/owned/{travelerId}")
+    public ResponseEntity<Page<TravelPlanDto>> getOwnedTravelPlansByUserId(@PathVariable String travelerId,
+                                                                           @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                           @RequestParam(value = "size", defaultValue = "10") int size){
+        return new ResponseEntity<>(travelerPlanService.getOwnedTravelPlansByUserId(travelerId,page,size), HttpStatus.CREATED);
     }
 
 

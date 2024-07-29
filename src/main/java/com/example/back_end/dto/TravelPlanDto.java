@@ -25,7 +25,7 @@ public class TravelPlanDto {
 
     private String location;
 
-
+    private String imgUrl;
     private String fromDate;
 
 
