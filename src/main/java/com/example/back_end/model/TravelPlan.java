@@ -1,15 +1,12 @@
 package com.example.back_end.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -40,7 +37,33 @@ public class TravelPlan {
     @Column(nullable = false)
     private String toDate;
 
+    @Column(length = 2048)
+    private String imgUrl;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
     @ManyToMany(mappedBy = "travelplans")
     @JsonBackReference
     private List<Traveler> travelers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TravelDate> travelDates = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name ="travelplanOwner")
+    @JsonBackReference(value = "owner-travelplan")
+    private Traveler travelPlanOwner;
+
+    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "travelplan-invitations")
+    private List<TravelInvitation> travelInvitations = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = new Date();
+        }
+    }
+
 }

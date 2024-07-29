@@ -18,7 +18,7 @@ public class NotFoundAdvice {
     public Map<String,String> exceptionHandler(NotFound exception){
 
         Map<String,String> errorMap=new HashMap<>();
-        errorMap.put("errorMessage",exception.getMessage());
+        errorMap.put("message",exception.getMessage());
         errorMap.put("status", String.valueOf(HttpStatus.CONFLICT.value()));
         return errorMap;
     }
