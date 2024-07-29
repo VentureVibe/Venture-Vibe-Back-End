@@ -30,4 +30,29 @@ public class FollowingController {
         return followerService.followTraveler(follower);
     }
 
+    @GetMapping("/{travelerId}/{followedTravelerId}")
+    public boolean isFollowed(@PathVariable String travelerId, @PathVariable String followedTravelerId) {
+        return followerService.findFollowerByTravelerIdAndFollowedTravelerId(travelerId, followedTravelerId);
+    }
+
+    @GetMapping("/traveler/{travelerId}")
+    public ResponseEntity<Iterable<Follower>> getFollowers(@PathVariable String travelerId) {
+        return ResponseEntity.ok(followerService.getFollowers(travelerId));
+    }
+
+    @GetMapping("/followedTraveler/{followedTravelerId}")
+    public ResponseEntity<Iterable<Follower>> getFollowersByFollowedTraveler(@PathVariable String followedTravelerId) {
+        return ResponseEntity.ok(followerService.getFollowersByFollowedTravelerId(followedTravelerId));
+    }
+
+    @DeleteMapping("/{travelerId}/{followedTravelerId}")
+    public void deleteFollower(@PathVariable String travelerId, @PathVariable String followedTravelerId) {
+        followerService.deleteFollowerByTravelerIdAndFollowedTravelerId(travelerId, followedTravelerId);
+    }
+
+    @DeleteMapping("/unfollow/{followedTravelerId}/{travelerId}")
+    public void unfollowFollower(@PathVariable String followedTravelerId, @PathVariable String travelerId) {
+        followerService.deleteFollowerByTravelerIdAndFollowedTravelerId(followedTravelerId, travelerId);
+    }
+
 }

@@ -33,9 +33,20 @@ public class ChatController {
         return messageService.sendMessage(message);
     }
 
-    @GetMapping("/messages")
-    public List<Message> getMessages(@RequestParam Long conversationId) {
+    @GetMapping("/messages/{conversationId}")
+    public List<Message> getMessages(@PathVariable Long conversationId) {
         return messageService.getChatMessages(conversationId);
+    }
+
+    @GetMapping("/conversations/{user1Id}/{user2Id}")
+    public Conversation getConversation(@PathVariable String user1Id, @PathVariable String user2Id) {
+        return conversationService.getConversationByUser1IdAndUser2Id(user1Id, user2Id);
+    }
+
+
+    @GetMapping("/conversations/{userId}")
+    public List<Conversation> getConversations(@PathVariable String userId) {
+        return conversationService.getConversations(userId);
     }
 }
 

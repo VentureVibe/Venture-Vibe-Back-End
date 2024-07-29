@@ -83,4 +83,8 @@ public class CommunityPostService {
     public void deleteCommunityPost(Integer id) {
         communityPostRepo.deleteById(id);
     }
+
+    public List<CommunityPost> getCommunityPostsByUserId(String userId) {
+        return communityPostRepo.findByUserId(userId);
+    }
 }
