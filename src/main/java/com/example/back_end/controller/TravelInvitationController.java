@@ -38,6 +38,7 @@ public class TravelInvitationController {
             TravelInviteDTO travelInvitation = travelInvitationService.getTravelInvitationById(travelInvitationId);
             return new ResponseEntity<>(travelInvitation, HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e);
             throw new SavedFailed();
         }
     }
@@ -55,12 +56,12 @@ public class TravelInvitationController {
     }
 
     @DeleteMapping(value = "/{travelInvitationId}")
-    public ResponseEntity<Void> deleteTravelInvitationById(@PathVariable Long travelInvitationId) {
+    public ResponseEntity<TravelInviteDTO> deleteTravelInvitationById(@PathVariable Long travelInvitationId) {
         try {
-            travelInvitationService.deleteTravelInvitationById(travelInvitationId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            TravelInviteDTO travelInviteDTO=travelInvitationService.deleteTravelInvitationById(travelInvitationId);
+            return new ResponseEntity<>(travelInviteDTO,HttpStatus.OK);
         } catch (NotFound e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new NotFound();
         } catch (Exception e) {
             throw new DeleteFailed();
         }

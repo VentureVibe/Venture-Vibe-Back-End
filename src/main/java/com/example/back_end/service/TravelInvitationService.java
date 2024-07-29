@@ -1,6 +1,7 @@
 package com.example.back_end.service;
 
 import com.example.back_end.dto.TravelInviteDTO;
+import com.example.back_end.dto.TravelPlanDto;
 import com.example.back_end.dto.TravelerDto;
 import com.example.back_end.exception.allreadyexists.AllReadyExists;
 import com.example.back_end.exception.notfound.NotFound;
@@ -80,22 +81,37 @@ public class TravelInvitationService {
     }
 
 
+
+    public Page<TravelInviteDTO> getTravelInvitationsByTravelerId(String travelerId, int page, int size) {
+        // Create a PageRequest with descending sort order by date
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("date")));
+
+        // Fetch the page of TravelInvitation entities
+        Page<TravelInvitation> travelInvitationPage = travelInvitationRepo.findByTravelPlanInviteeId(travelerId, pageRequest);
+
+        // Map the entities to DTOs and include travelPlan details
+        return travelInvitationPage.map(travelInvitation -> {
+            TravelInviteDTO dto = modelMapper.map(travelInvitation, TravelInviteDTO.class);
+            dto.setTravelPlan(travelInvitation.getTravelPlan()); // Assuming TravelInviteDTO has a setTravelPlan method
+            return dto;
+        });
+    }
+
+
+
     @Transactional
-    public void deleteTravelInvitationById(Long travelInvitationId) {
+    public TravelInviteDTO deleteTravelInvitationById(Long travelInvitationId) {
         TravelInvitation travelInvitation = travelInvitationRepo.findById(travelInvitationId)
                 .orElseThrow(() -> new NotFound());
 
         try {
             travelInvitationRepo.delete(travelInvitation);
+            return modelMapper.map(travelInvitation, TravelInviteDTO.class);
         } catch (Exception e) {
             throw new SavedFailed();
         }
     }
 
-    public Page<TravelInviteDTO> getTravelInvitationsByTravelerId(String travelerId,int page, int size){
-        Page<TravelInvitation> travelInvitationPage = travelInvitationRepo.findByTravelPlanInviteeId(travelerId, PageRequest.of(page, size, Sort.by("date")));
-        return modelMapper.map( travelInvitationPage, new TypeToken<Page<TravelInviteDTO>>(){}.getType());
-    }
 
 
 
