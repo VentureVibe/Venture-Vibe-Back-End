@@ -41,6 +41,11 @@ public class CommunityPostController {
         return communityPostService.getCommunityPost(id);
     }
 
+    @GetMapping("/user/{userId}")
+    public List<CommunityPost> getCommunityPostsByUserId(@PathVariable String userId) {
+        return communityPostService.getCommunityPostsByUserId(userId);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteCommunityPost(@PathVariable Integer id) {
         communityPostService.deleteCommunityPost(id);
