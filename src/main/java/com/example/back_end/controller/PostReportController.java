@@ -24,4 +24,9 @@ public class PostReportController {
     public List<PostReport> getAllPostReports() {
         return postReportService.getAllPostReports();
     }
+
+    @PutMapping("/{id}")
+    public PostReport updatePostReport(@RequestBody PostReport postReport, @PathVariable Long id) {
+        return postReportService.updatePostReportById(postReport, id);
+    }
 }

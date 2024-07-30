@@ -39,4 +39,14 @@ public class PostReportService {
     public List<PostReport> getAllPostReports() {
         return postReportRepository.findAll();
     }
+
+
+    public PostReport updatePostReportById(PostReport postReport, Long id) {
+        PostReport existingPostReport = postReportRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("PostReport with id " + id + " not found"));
+
+        existingPostReport.setStatus(postReport.getStatus());
+
+        return postReportRepository.save(existingPostReport);
+    }
 }
