@@ -30,7 +30,7 @@ public class TravelerController {
     }
 
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping()
     public ResponseEntity<TravelerDto> addTraveler(@RequestBody TravelerDto traveler) {
 
         TravelerDto addedProduct = travelerService.addTraveler(traveler);

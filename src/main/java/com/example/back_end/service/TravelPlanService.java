@@ -113,8 +113,6 @@ public class TravelPlanService {
     }
 
 
-
-
     public Page<TravelPlanDto> getOwnedTravelPlansByUserId(String userId, int page, int size) {
         Optional<Traveler> travelerOptional = travelerRepo.findById(userId);
         if (travelerOptional.isPresent()) {
@@ -143,7 +141,7 @@ public class TravelPlanService {
     @Transactional
     public TravelPlanDto addTravelPlan(String travelerId, TravelPlanDto travelPlanDto) {
         Traveler traveler;
-        System.out.println(travelPlanDto);
+
         try {
             traveler = travelerRepo.findById(travelerId)
                     .orElseThrow(() -> new NotFound());
@@ -207,6 +205,39 @@ public class TravelPlanService {
         }
     }
 
+
+
+    @Transactional
+    public TravelPlanDto addTravelerToTravelPlan(Long travelPlanId, String travelerId) {
+
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+        Traveler traveler = travelerRepo.findById(travelerId)
+                .orElseThrow(() -> new NotFound());
+
+        if (travelPlan.getTravelers() == null) {
+            travelPlan.setTravelers(new ArrayList<>());
+        }
+
+        if (!travelPlan.getTravelers().contains(traveler)) {
+            travelPlan.getTravelers().add(traveler);
+        }
+
+        if (traveler.getTravelplans() == null) {
+            traveler.setTravelplans(new ArrayList<>());
+        }
+
+        if (!traveler.getTravelplans().contains(travelPlan)) {
+            traveler.getTravelplans().add(travelPlan);
+        }
+
+        TravelPlan updatedTravelPlan = travelPlanRepo.save(travelPlan);
+
+        travelerRepo.save(traveler);
+
+        return modelMapper.map(updatedTravelPlan, TravelPlanDto.class);
+    }
 
 
     @Transactional
