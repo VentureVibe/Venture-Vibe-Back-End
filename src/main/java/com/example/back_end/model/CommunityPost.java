@@ -25,7 +25,7 @@ public class CommunityPost {
     @Column(name = "post_id")
     private Integer id;
 
-    @Column(length = 2048 , nullable = false)
+    @Column(length = 20000 , nullable = false)
     private String content;
 
     @Column(length = 2048)

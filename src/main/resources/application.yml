@@ -3,7 +3,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/venturevibe
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: Akila@2000
+    password: 12345
+
   jpa:
     hibernate:
       ddl-auto: update
