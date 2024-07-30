@@ -58,6 +58,10 @@ public class Traveler {
     private Set<PostLike> postLikes;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "userReported", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostReport> postReports;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "usercommented", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PostComment> postComments = new HashSet<>();
 
@@ -77,14 +81,17 @@ public class Traveler {
     @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Conversation> receivedConversations = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "traveler_travelplan",
             joinColumns = @JoinColumn(name = "traveler_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "travelplan_id", referencedColumnName = "id")
     )
-
+    @JsonManagedReference
     private List<TravelPlan> travelplans = new ArrayList<>();
+
+
 
     @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -93,4 +100,16 @@ public class Traveler {
     @JsonIgnore
     @OneToMany(mappedBy = "traveler", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Follower> followers = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "travelPlanOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    private Set<TravelPlan> ownedTravelPlans = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "travelPlanInvitee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "travelplan-invitee")
+    private Set<TravelInvitation> travelPlanInvitation = new HashSet<>();
+
+
 }

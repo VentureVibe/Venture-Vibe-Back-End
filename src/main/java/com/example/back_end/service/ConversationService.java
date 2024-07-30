@@ -1,5 +1,6 @@
 package com.example.back_end.service;
 
+import com.example.back_end.exception.ResourceNotFoundException;
 import com.example.back_end.model.Conversation;
 import com.example.back_end.model.Traveler;
 import com.example.back_end.repository.ConversationRepository;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConversationService {
@@ -36,6 +40,25 @@ public class ConversationService {
 
     public Conversation getConversation(Long conversationId) {
         return conversationRepository.findById(conversationId).orElse(null);
+    }
+
+    public List<Conversation> getConversations(String userId) {
+        List<Conversation> conversations1 = conversationRepository.findByUser1Id(userId);
+        List<Conversation> conversations2 = conversationRepository.findByUser2Id(userId);
+
+        List<Conversation> conversations = new ArrayList<>(conversations1);
+        conversations.addAll(conversations2);
+
+        if (conversations.isEmpty()) {
+            throw new ResourceNotFoundException("No conversations found");
+        }
+
+        return conversations;
+    }
+
+    public Conversation getConversationByUser1IdAndUser2Id(String user1Id, String user2Id) {
+        return conversationRepository.findByUser1IdAndUser2Id(user1Id, user2Id)
+                .orElse(null);
     }
 }
 

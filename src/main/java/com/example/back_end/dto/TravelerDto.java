@@ -31,4 +31,6 @@ public class TravelerDto {
     private String coverImg;
 
     private List<TravelPlan> travelplans;
+
+
 }

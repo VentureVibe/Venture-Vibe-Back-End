@@ -8,10 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1/public/traveler")
+@CrossOrigin(origins = "http://localhost:5173")
 public class TravelerController {
+
     @Autowired
     private TravelerService travelerService;
 
@@ -21,14 +24,20 @@ public class TravelerController {
         return new ResponseEntity<>(travelerService.getTravelerByID(travelerId), HttpStatus.CREATED);
     }
 
+    @GetMapping("/emailpartially/{email}")
+    public ResponseEntity<List<TravelerDto>> getTravelerByEmailPartially(@PathVariable String email){
+        return new ResponseEntity<>(travelerService.getTravelerByEmailPartially(email), HttpStatus.CREATED);
+    }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
+
+    @PostMapping()
     public ResponseEntity<TravelerDto> addTraveler(@RequestBody TravelerDto traveler) {
 
         TravelerDto addedProduct = travelerService.addTraveler(traveler);
 
         return new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<TravelerDto> deleteTraveler(@PathVariable String id) {

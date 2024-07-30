@@ -59,4 +59,27 @@ public class FollowerService {
 
         return followerRepository.save(follower);
     }
+
+    public boolean findFollowerByTravelerIdAndFollowedTravelerId(String travelerId, String followedTravelerId) {
+        return followerRepository.existsByTravelerIdAndFollowedTravelerId(travelerId, followedTravelerId);
+    }
+
+    public Iterable<Follower> getFollowers(String travelerId) {
+        return followerRepository.findAllByTravelerId(travelerId);
+    }
+
+    public Iterable<Follower> getFollowersByFollowedTravelerId(String followedTraveler) {
+        return followerRepository.findAllByFollowedTravelerId(followedTraveler);
+    }
+
+
+    public void deleteFollowerByTravelerIdAndFollowedTravelerId(String travelerId, String followedTravelerId) {
+        Follower follower = followerRepository.findByTravelerIdAndFollowedTravelerId(travelerId, followedTravelerId);
+
+        if (follower == null) {
+            throw new IllegalArgumentException("Follower not found");
+        }
+
+        followerRepository.delete(follower);
+    }
 }

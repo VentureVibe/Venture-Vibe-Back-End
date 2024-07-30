@@ -1,5 +1,7 @@
 package com.example.back_end.dto;
 
+import com.example.back_end.model.TravelDate;
+import com.example.back_end.model.TravelInvitation;
 import com.example.back_end.model.Traveler;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,8 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TravelPlanDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
 
@@ -22,14 +23,17 @@ public class TravelPlanDto {
 
     private Float longi;
 
-
     private String location;
 
-
+    private String imgUrl;
     private String fromDate;
 
 
     private String toDate;
 
     private List<Traveler> travelers;
+    private List<TravelDate> travelDates;
+    private Traveler travelPlanOwner;
+
+    private List<String> travelInviteList;
 }
