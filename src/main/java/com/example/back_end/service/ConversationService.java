@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,14 +43,14 @@ public class ConversationService {
     }
 
     public List<Conversation> getConversations(String userId) {
-        List<Conversation> conversations = conversationRepository.findByUser1Id(userId);
+        List<Conversation> conversations1 = conversationRepository.findByUser1Id(userId);
+        List<Conversation> conversations2 = conversationRepository.findByUser2Id(userId);
+
+        List<Conversation> conversations = new ArrayList<>(conversations1);
+        conversations.addAll(conversations2);
 
         if (conversations.isEmpty()) {
-            conversations = conversationRepository.findByUser2Id(userId);
-
-            if (conversations.isEmpty()) {
-                throw new ResourceNotFoundException("No conversations found");
-            }
+            throw new ResourceNotFoundException("No conversations found");
         }
 
         return conversations;
