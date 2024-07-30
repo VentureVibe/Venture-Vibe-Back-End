@@ -52,7 +52,7 @@ public class TravelPlan {
 
     @ManyToOne
     @JoinColumn(name ="travelplanOwner")
-    @JsonBackReference(value = "owner-travelplan")
+
     private Traveler travelPlanOwner;
 
     @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)

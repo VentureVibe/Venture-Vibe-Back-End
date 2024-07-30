@@ -103,7 +103,7 @@ public class Traveler {
 
     @JsonIgnore
     @OneToMany(mappedBy = "travelPlanOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value = "owner-travelplan")
+
     private Set<TravelPlan> ownedTravelPlans = new HashSet<>();
 
     @JsonIgnore
