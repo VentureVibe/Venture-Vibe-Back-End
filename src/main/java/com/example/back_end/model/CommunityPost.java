@@ -51,6 +51,10 @@ public class CommunityPost {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostComment> postComments = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostReport> postReports = new ArrayList<>();
+
     // Method to add a PostLike
     public void addPostLike(PostLike postLike) {
         postLikes.add(postLike);
