@@ -41,6 +41,10 @@ public class EventService {
         return modelMapper.map(savedEvent, EventDTO.class);
     }
 
+    public Page<EventDTO> getEventsByUserId(String userId, Pageable pageable) {
+        return eventRepository.findByUserId(userId, pageable).map(event -> modelMapper.map(event, EventDTO.class));
+    }
+
     public EventDTO updateEvent(EventDTO eventDTO, MultipartFile image) throws IOException {
         Event event = eventRepository.findById(eventDTO.getEventId()).orElseThrow(() -> new RuntimeException("Event not found"));
         modelMapper.map(eventDTO, event);
