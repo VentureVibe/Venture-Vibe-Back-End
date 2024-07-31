@@ -47,6 +47,16 @@ public class EventController {
         return ResponseEntity.ok(createdEvent);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Page<EventDTO>> getEventsByUserId(
+            @PathVariable("userId") String userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<EventDTO> eventsPage = eventService.getEventsByUserId(userId, pageable);
+        return ResponseEntity.ok(eventsPage);
+    }
+
     /*@PutMapping("/{eventId}")
     public ResponseEntity<EventDTO> updateEvent(@PathVariable("eventId") Integer eventId, @RequestBody EventDTO eventDTO) {
         eventDTO.setEventId(eventId);
