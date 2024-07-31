@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventRepo extends JpaRepository<Event, Integer> {
     Page<Event> findAll(Pageable pageable);
+    Page<Event> findByUserId(String userId, Pageable pageable);
 }
