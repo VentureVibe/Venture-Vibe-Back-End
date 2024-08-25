@@ -52,7 +52,6 @@ public class TravelPlan {
 
     @ManyToOne
     @JoinColumn(name ="travelplanOwner")
-
     private Traveler travelPlanOwner;
 
     @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)

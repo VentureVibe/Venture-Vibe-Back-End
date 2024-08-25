@@ -1,11 +1,8 @@
 package com.example.back_end.controller;
 
-import com.example.back_end.dto.TravelInviteDTO;
 import com.example.back_end.dto.TravelPlanDto;
-import com.example.back_end.dto.TravelerDto;
 
 import com.example.back_end.exception.notfound.NotFound;
-import com.example.back_end.model.TravelPlan;
 import com.example.back_end.service.TravelPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+
 import java.util.List;
 
 @RestController
@@ -70,6 +67,13 @@ public class TravelPlanController {
     public ResponseEntity<TravelPlanDto> deleteTravelPlan(@PathVariable Long travelPlanId) {
         TravelPlanDto deletedTravelPlan = travelerPlanService.deleteTravelPlan(travelPlanId);
         return new ResponseEntity<>(deletedTravelPlan, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{travelPlanId}/{travelerId}")
+    public ResponseEntity<TravelPlanDto> deleteTravelerFromTravelPlan(@PathVariable Long travelPlanId,@PathVariable String travelerId){
+        TravelPlanDto deletedTravelPlan = travelerPlanService.deleteTravelerFromTravelPlan(travelPlanId,travelerId);
+        return new ResponseEntity<>(deletedTravelPlan, HttpStatus.CREATED);
+
     }
 
     @PutMapping("/{travelPlanId}/{travelerId}")

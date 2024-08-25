@@ -31,9 +31,10 @@ public class TravelPlanDto {
 
     private String toDate;
 
-    private List<Traveler> travelers;
+    private List<TravelerTravelPlanDTO> travelers;
     private List<TravelDate> travelDates;
-    private Traveler travelPlanOwner;
+    private TravelerTravelPlanDTO travelPlanOwner;
 
     private List<String> travelInviteList;
+    private List<TravelInviteDTO > travelInvitations;
 }
