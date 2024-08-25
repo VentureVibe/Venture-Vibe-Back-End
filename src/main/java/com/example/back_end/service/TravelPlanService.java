@@ -260,4 +260,29 @@ public class TravelPlanService {
 
 
     }
+
+    @Transactional
+    public TravelPlanDto deleteTravelerFromTravelPlan(Long travelPlanId,String travelerId) {
+        System.out.println(travelerId +" "+travelPlanId);
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+        try{
+            for (Traveler traveler : new ArrayList<>(travelPlan.getTravelers())) {
+                if(traveler.getId().equals(travelerId)){
+
+                    traveler.getTravelplans().remove(travelPlan);
+                    travelerRepo.save(traveler);
+                }
+            }
+
+            return modelMapper.map(travelPlan, TravelPlanDto.class);
+
+        }
+        catch(Exception e){
+            throw new DeleteFailed();
+        }
+
+
+    }
 }
