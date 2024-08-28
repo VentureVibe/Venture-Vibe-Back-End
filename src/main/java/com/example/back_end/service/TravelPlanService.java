@@ -285,4 +285,33 @@ public class TravelPlanService {
 
 
     }
+
+
+    public TravelPlanDto addNoteToTravelPlan(Long travelPlanId, String note) {
+
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+
+        travelPlan.setNote(note);
+
+        TravelPlan updatedTravelPlan = travelPlanRepo.save(travelPlan);
+
+        return modelMapper.map(updatedTravelPlan, TravelPlanDto.class);
+    }
+
+
+    public TravelPlanDto addBudgetToTravelPlan(Long travelPlanId, Long price) {
+
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+
+        travelPlan.setBudget(price);
+
+        TravelPlan updatedTravelPlan = travelPlanRepo.save(travelPlan);
+
+        return modelMapper.map(updatedTravelPlan, TravelPlanDto.class);
+    }
+
 }

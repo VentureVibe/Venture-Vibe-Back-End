@@ -90,4 +90,36 @@ public class TravelPlanController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/note/{travelPlanId}")
+    public ResponseEntity<TravelPlanDto> addNoteToTravelPlan(
+            @PathVariable Long travelPlanId,
+            @RequestParam String note ) {
+
+        try {
+            TravelPlanDto updatedTravelPlan = travelerPlanService.addNoteToTravelPlan(travelPlanId, note);
+            return new ResponseEntity<>(updatedTravelPlan, HttpStatus.OK);
+        } catch (NotFound e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/budget/{travelPlanId}")
+    public ResponseEntity<TravelPlanDto> addBudgetToTravelPlan(
+            @PathVariable Long travelPlanId,
+            @RequestParam Long budget ) {
+
+        try {
+            TravelPlanDto updatedTravelPlan = travelerPlanService.addBudgetToTravelPlan(travelPlanId, budget);
+            return new ResponseEntity<>(updatedTravelPlan, HttpStatus.OK);
+        } catch (NotFound e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
