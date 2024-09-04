@@ -1,12 +1,13 @@
 package com.example.back_end.dto;
 
-import com.example.back_end.model.*;
+import com.example.back_end.model.TravelDate;
+import com.example.back_end.model.TravelInvitation;
+import com.example.back_end.model.Traveler;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,17 +28,12 @@ public class TravelPlanDto {
     private String imgUrl;
     private String fromDate;
 
-    private String note;
-
-    private Float budget;
 
     private String toDate;
 
-    private List<TravelerTravelPlanDTO> travelers;
+    private List<Traveler> travelers;
     private List<TravelDate> travelDates;
-    private TravelerTravelPlanDTO travelPlanOwner;
-    private List<TravelBudgetDTO> travelBudgets;
-    private List<TravelDestination> travelDestinations;
+    private Traveler travelPlanOwner;
+
     private List<String> travelInviteList;
-    private List<TravelInviteDTO > travelInvitations;
 }
