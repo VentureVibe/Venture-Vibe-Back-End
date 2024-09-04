@@ -43,6 +43,11 @@ public class TravelerController {
     public ResponseEntity<TravelerDto> deleteTraveler(@PathVariable String id) {
         TravelerDto deleteTraveler = travelerService.deleteTraveler(id);
         return new ResponseEntity<>(deleteTraveler, HttpStatus.CREATED);
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TravelerDto> updateTraveler(@PathVariable String id, @RequestBody TravelerDto traveler) {
+        TravelerDto updatedTraveler = travelerService.updateTraveler(id, traveler);
+        return new ResponseEntity<>(updatedTraveler, HttpStatus.OK);
     }
 }
