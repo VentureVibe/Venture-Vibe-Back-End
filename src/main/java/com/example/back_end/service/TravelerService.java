@@ -105,6 +105,12 @@ public class TravelerService {
         }
     }
 
+    public List<TravelerDto> getAllUsers() {
+        List<Traveler> users = travelerRepo.findAll();
+        return users.stream().map(user->modelMapper.map(user,TravelerDto.class))
+                .collect(Collectors.toList());
+    }
+
     public TravelerDto updateTraveler(String id, TravelerDto travelerDto) {
         // Find the existing traveler by ID
         Traveler existingTraveler = travelerRepo.findById(id)
