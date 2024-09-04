@@ -30,4 +30,6 @@ public class PostReport {
     private String reason;
 
     private String status = "PENDING";
+
 }
+
