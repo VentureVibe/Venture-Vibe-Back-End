@@ -31,6 +31,15 @@ public class Traveler {
     @Id
     private String id;
 
+    @Column
+    private String country;
+
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
     @Column(length = 320, nullable = false)
     private String email;
 

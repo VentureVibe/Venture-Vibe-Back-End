@@ -260,4 +260,58 @@ public class TravelPlanService {
 
 
     }
+
+    @Transactional
+    public TravelPlanDto deleteTravelerFromTravelPlan(Long travelPlanId,String travelerId) {
+        System.out.println(travelerId +" "+travelPlanId);
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+        try{
+            for (Traveler traveler : new ArrayList<>(travelPlan.getTravelers())) {
+                if(traveler.getId().equals(travelerId)){
+
+                    traveler.getTravelplans().remove(travelPlan);
+                    travelerRepo.save(traveler);
+                }
+            }
+
+            return modelMapper.map(travelPlan, TravelPlanDto.class);
+
+        }
+        catch(Exception e){
+            throw new DeleteFailed();
+        }
+
+
+    }
+
+
+    public TravelPlanDto addNoteToTravelPlan(Long travelPlanId, String note) {
+
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+
+        travelPlan.setNote(note);
+
+        TravelPlan updatedTravelPlan = travelPlanRepo.save(travelPlan);
+
+        return modelMapper.map(updatedTravelPlan, TravelPlanDto.class);
+    }
+
+
+    public TravelPlanDto addBudgetToTravelPlan(Long travelPlanId, Long price) {
+
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+
+        travelPlan.setBudget(price);
+
+        TravelPlan updatedTravelPlan = travelPlanRepo.save(travelPlan);
+
+        return modelMapper.map(updatedTravelPlan, TravelPlanDto.class);
+    }
+
 }

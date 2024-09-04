@@ -1,14 +1,12 @@
 package com.example.back_end.controller;
 
 import com.example.back_end.dto.TravelInviteDTO;
-import com.example.back_end.dto.TravelPlanDto;
 import com.example.back_end.exception.deletefailed.DeleteFailed;
 import com.example.back_end.exception.notfound.NotFound;
 import com.example.back_end.exception.savefailed.SavedFailed;
 import com.example.back_end.model.TravelInvitation;
 import com.example.back_end.service.TravelInvitationService;
-import com.example.back_end.service.TravelerService;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value="/api/v1/travelInvite")
-
+@CrossOrigin(origins = "http://localhost:5173")
 public class TravelInvitationController {
 
 
@@ -66,5 +64,6 @@ public class TravelInvitationController {
             throw new DeleteFailed();
         }
     }
+
 
 }
