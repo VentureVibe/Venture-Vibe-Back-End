@@ -53,10 +53,10 @@ public class TravelerService {
         Traveler savedTraveler;
         try {
             if(travelerDto.getProfileImg() == null) {
-                travelerDto.setProfileImg("https://venturevibeimages.s3.eu-north-1.amazonaws.com/profile-images/ef367f3fb2a5025cc25515b7dded598b.jpg");
+                travelerDto.setProfileImg("https://venturevibes3v2.s3.eu-north-1.amazonaws.com/OIP-removebg-preview.png");
             }
             if(travelerDto.getCoverImg() == null) {
-                travelerDto.setCoverImg("https://venturevibeimages.s3.eu-north-1.amazonaws.com/profile-images/ef367f3fb2a5025cc25515b7dded598b.jpg");
+                travelerDto.setCoverImg("https://venturevibes3v2.s3.eu-north-1.amazonaws.com/OIP-removebg-preview.png");
             }
             if(travelerDto.getRole() == null) {
                 travelerDto.setRole("Traveler");
