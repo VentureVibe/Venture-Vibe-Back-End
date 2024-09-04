@@ -1,14 +1,13 @@
 package com.example.back_end.service;
 
 import com.example.back_end.dto.TravelerDto;
-import com.example.back_end.dto.UserDTO;
+import com.example.back_end.exception.ResourceNotFoundException;
 import com.example.back_end.exception.allreadyexists.AllReadyExists;
 import com.example.back_end.exception.deletefailed.DeleteFailed;
 import com.example.back_end.exception.notfound.NotFound;
 import com.example.back_end.exception.savefailed.SavedFailed;
 import com.example.back_end.model.TravelPlan;
 import com.example.back_end.model.Traveler;
-import com.example.back_end.model.User;
 import com.example.back_end.repository.TravelerRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -107,9 +105,19 @@ public class TravelerService {
         }
     }
 
-    public List<TravelerDto> getAllUsers() {
-        List<Traveler> users = travelerRepo.findAll();
-        return users.stream().map(user->modelMapper.map(user,TravelerDto.class))
-                .collect(Collectors.toList());
+    public TravelerDto updateTraveler(String id, TravelerDto travelerDto) {
+        // Find the existing traveler by ID
+        Traveler existingTraveler = travelerRepo.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Traveler not found with id: " + id));
+
+        // Update only the non-null fields from the DTO
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        modelMapper.map(travelerDto, existingTraveler);
+
+        // Save the updated traveler
+        Traveler updatedTraveler = travelerRepo.save(existingTraveler);
+
+        // Convert the updated entity back to DTO and return
+        return modelMapper.map(updatedTraveler, TravelerDto.class);
     }
 }

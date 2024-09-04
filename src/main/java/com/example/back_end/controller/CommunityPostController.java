@@ -41,11 +41,6 @@ public class CommunityPostController {
         return communityPostService.getCommunityPost(id);
     }
 
-    @GetMapping("/explore/{city}")
-    public List<CommunityPost> getCommunityPostByContent(@PathVariable String city) {
-        return communityPostService.getCommunityPostsByCityInContent(city);
-    }
-
     @GetMapping("/user/{userId}")
     public List<CommunityPost> getCommunityPostsByUserId(@PathVariable String userId) {
         return communityPostService.getCommunityPostsByUserId(userId);

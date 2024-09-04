@@ -47,21 +47,26 @@ public class EventService {
 
     public EventDTO updateEvent(EventDTO eventDTO, MultipartFile image) throws IOException {
         Event event = eventRepository.findById(eventDTO.getEventId()).orElseThrow(() -> new RuntimeException("Event not found"));
-        modelMapper.map(eventDTO, event);
+
         if(image != null) {
             if(imageService.deleteImageFromS3(event.getEventImage()) == "ok") {
                 //String newImageUrl = imageService.uploadImage(image, "events");
-                event.setEventImage(imageService.uploadImage(image, "events"));
+                eventDTO.setEventImage(imageService.uploadImage(image, "events"));
             } else {
                 throw new RuntimeException("Image Can't Delete.");
             }
+        } else {
+            eventDTO.setEventImage(event.getEventImage());
         }
-        Event updatedEvent = eventRepository.save(event);
+
+        //System.out.println(eventDTO);
+        Event updatedEvent = eventRepository.save(modelMapper.map(eventDTO, Event.class));
         return modelMapper.map(updatedEvent, EventDTO.class);
     }
 
     public void deleteEvent(Integer eventId) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+        imageService.deleteImageFromS3(event.getEventImage());
         eventRepository.delete(event);
     }
 }
