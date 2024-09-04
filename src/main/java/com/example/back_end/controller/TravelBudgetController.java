@@ -28,6 +28,17 @@ public class TravelBudgetController {
         return travelBudgetService.addTravelBudget(travelBudget,travelPlanId);
     }
 
+    @PostMapping("/{travelPlanId}/{travelDestinationId}")
+    public TravelBudget addTravelBudgetDestination(
+            @PathVariable("travelPlanId") Long travelPlanId,
+            @PathVariable("travelDestinationId") Long travelDestinationId,
+            @RequestBody TravelBudget travelBudget) {
+
+        // Set the travelPlanId to the travelBudget if needed
+
+
+        return travelBudgetService.addTravelBudgetDestination(travelBudget,travelPlanId,travelDestinationId);
+    }
 
     @PutMapping("/{travelPlanId}")
     public TravelBudget updateTravelBudget(

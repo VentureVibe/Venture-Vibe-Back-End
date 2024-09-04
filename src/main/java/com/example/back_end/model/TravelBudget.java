@@ -1,6 +1,7 @@
 package com.example.back_end.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,10 +19,8 @@ public class TravelBudget {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     private Float cost;
-
 
     private String type;
 
@@ -36,13 +35,15 @@ public class TravelBudget {
     @JsonBackReference(value = "travelplan-budget")
     private TravelPlan travelPlan;
 
-    @OneToOne(optional = true)
-    @JoinColumn(name="destination_id")
+    // No cascade here, as TravelBudget should not affect TravelDestination
+
+    @OneToOne
+    @JoinColumn(name = "destination_id", unique = true)
+    @JsonBackReference("travelDestination-travelBudget")
     private TravelDestination travelDestination;
 
-    @ManyToOne (optional = true)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "traveler_id")
+    @JsonBackReference(value = "a")
     private Traveler traveler;
-
-
 }
