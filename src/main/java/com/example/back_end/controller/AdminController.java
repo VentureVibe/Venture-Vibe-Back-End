@@ -27,25 +27,25 @@ public class AdminController {
     }
 
 
-    @GetMapping("/users")
-    public ResponseEntity<List<TravelerDto>> getAllUsers(){
-        List<TravelerDto> users = travelerService.getAllUsers();
-        return ResponseEntity.ok(users);
-    }
-
-    @PutMapping("/users/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable String userId, @RequestBody UserDTO userDTO){
-        UserDTO updatedUser = userService.updateUser(userId,userDTO);
-        if(updatedUser != null){
-            return ResponseEntity.ok(updatedUser);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @DeleteMapping("/users/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.noContent().build();
-    }
+//    @GetMapping("/users")
+//    public ResponseEntity<List<TravelerDto>> getAllUsers(){
+//        List<TravelerDto> users = travelerService.getAllUsers();
+//        return ResponseEntity.ok(users);
+//    }
+//
+//    @PutMapping("/users/{userId}")
+//    public ResponseEntity<UserDTO> updateUser(@PathVariable String userId, @RequestBody UserDTO userDTO){
+//        UserDTO updatedUser = userService.updateUser(userId,userDTO);
+//        if(updatedUser != null){
+//            return ResponseEntity.ok(updatedUser);
+//        }else{
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @DeleteMapping("/users/{userId}")
+//    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
+//        userService.deleteUser(userId);
+//        return ResponseEntity.noContent().build();
+//    }
 }

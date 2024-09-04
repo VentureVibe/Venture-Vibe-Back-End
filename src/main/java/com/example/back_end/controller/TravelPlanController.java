@@ -1,11 +1,8 @@
 package com.example.back_end.controller;
 
-import com.example.back_end.dto.TravelInviteDTO;
 import com.example.back_end.dto.TravelPlanDto;
-import com.example.back_end.dto.TravelerDto;
 
 import com.example.back_end.exception.notfound.NotFound;
-import com.example.back_end.model.TravelPlan;
 import com.example.back_end.service.TravelPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+
 import java.util.List;
 
 @RestController
@@ -72,6 +69,13 @@ public class TravelPlanController {
         return new ResponseEntity<>(deletedTravelPlan, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/{travelPlanId}/{travelerId}")
+    public ResponseEntity<TravelPlanDto> deleteTravelerFromTravelPlan(@PathVariable Long travelPlanId,@PathVariable String travelerId){
+        TravelPlanDto deletedTravelPlan = travelerPlanService.deleteTravelerFromTravelPlan(travelPlanId,travelerId);
+        return new ResponseEntity<>(deletedTravelPlan, HttpStatus.CREATED);
+
+    }
+
     @PutMapping("/{travelPlanId}/{travelerId}")
     public ResponseEntity<TravelPlanDto> addTravelerToTravelPlan(
             @PathVariable Long travelPlanId,
@@ -86,4 +90,36 @@ public class TravelPlanController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/note/{travelPlanId}")
+    public ResponseEntity<TravelPlanDto> addNoteToTravelPlan(
+            @PathVariable Long travelPlanId,
+            @RequestParam String note ) {
+
+        try {
+            TravelPlanDto updatedTravelPlan = travelerPlanService.addNoteToTravelPlan(travelPlanId, note);
+            return new ResponseEntity<>(updatedTravelPlan, HttpStatus.OK);
+        } catch (NotFound e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/budget/{travelPlanId}")
+    public ResponseEntity<TravelPlanDto> addBudgetToTravelPlan(
+            @PathVariable Long travelPlanId,
+            @RequestParam Long budget ) {
+
+        try {
+            TravelPlanDto updatedTravelPlan = travelerPlanService.addBudgetToTravelPlan(travelPlanId, budget);
+            return new ResponseEntity<>(updatedTravelPlan, HttpStatus.OK);
+        } catch (NotFound e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

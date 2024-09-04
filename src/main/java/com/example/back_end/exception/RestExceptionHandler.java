@@ -1,4 +1,4 @@
-package com.example.Crisp.exception;
+package com.example.back_end.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.Ordered;
