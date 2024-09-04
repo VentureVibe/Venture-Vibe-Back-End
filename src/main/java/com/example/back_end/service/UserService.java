@@ -1,6 +1,7 @@
 package com.example.back_end.service;
 
 import com.example.back_end.dto.UserDTO;
+import com.example.back_end.exception.notfound.NotFound;
 import com.example.back_end.model.User;
 import com.example.back_end.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -47,9 +48,31 @@ public class UserService {
         }
     }
 
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(user->modelMapper.map(user,UserDTO.class))
-                .collect(Collectors.toList());
+
+
+    public UserDTO updateUser(String userId, UserDTO userDTO) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            user.setEmail(userDTO.getEmail());
+            user.setRole(userDTO.getRole());
+            user.setProfileImageUrl(userDTO.getProfileImageUrl());
+
+
+            User updatedUser = userRepository.save(user);
+            return modelMapper.map(updatedUser, UserDTO.class);
+        } else {
+            return null;
+        }
+    }
+
+    public void deleteUser(String userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()){
+            userRepository.deleteById(userId);
+        }else {
+            throw new NotFound();
+        }
     }
 }
