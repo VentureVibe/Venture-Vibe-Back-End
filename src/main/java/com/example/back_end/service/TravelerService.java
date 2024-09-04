@@ -112,4 +112,30 @@ public class TravelerService {
         return users.stream().map(user->modelMapper.map(user,TravelerDto.class))
                 .collect(Collectors.toList());
     }
+
+    public TravelerDto updateUser(String userId, TravelerDto travelerDto) {
+        Optional<Traveler> optionalUser = travelerRepo.findById(userId);
+        if (optionalUser.isPresent()) {
+            Traveler traveler = optionalUser.get();
+            traveler.setName(traveler.getName());
+            traveler.setEmail(traveler.getEmail());
+            traveler.setRole(traveler.getRole());
+
+
+
+            Traveler updatedUser = travelerRepo.save(traveler);
+            return modelMapper.map(updatedUser, TravelerDto.class);
+        } else {
+            return null;
+        }
+    }
+
+    public void deleteUser(String userId) {
+        Optional<Traveler> optionalUser = travelerRepo.findById(userId);
+        if (optionalUser.isPresent()) {
+            travelerRepo.deleteById(userId);
+        } else {
+            throw new NotFound();
+        }
+    }
 }

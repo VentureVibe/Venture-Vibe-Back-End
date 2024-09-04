@@ -48,31 +48,5 @@ public class UserService {
         }
     }
 
-
-
-    public UserDTO updateUser(String userId, UserDTO userDTO) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
-            user.setEmail(userDTO.getEmail());
-            user.setRole(userDTO.getRole());
-            user.setProfileImageUrl(userDTO.getProfileImageUrl());
-
-
-            User updatedUser = userRepository.save(user);
-            return modelMapper.map(updatedUser, UserDTO.class);
-        } else {
-            return null;
-        }
-    }
-
-    public void deleteUser(String userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isPresent()){
-            userRepository.deleteById(userId);
-        }else {
-            throw new NotFound();
-        }
-    }
+    
 }
