@@ -1,9 +1,6 @@
 package com.example.back_end.dto;
 
-import com.example.back_end.model.TravelBudget;
-import com.example.back_end.model.TravelDate;
-import com.example.back_end.model.TravelInvitation;
-import com.example.back_end.model.Traveler;
+import com.example.back_end.model.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,7 +36,8 @@ public class TravelPlanDto {
     private List<TravelerTravelPlanDTO> travelers;
     private List<TravelDate> travelDates;
     private TravelerTravelPlanDTO travelPlanOwner;
-    private List<TravelBudget> travelBudgets;
+    private List<TravelBudgetDTO> travelBudgets;
+    private List<TravelDestination> travelDestinations;
     private List<String> travelInviteList;
     private List<TravelInviteDTO > travelInvitations;
 }

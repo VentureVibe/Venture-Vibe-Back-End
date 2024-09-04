@@ -2,12 +2,10 @@ package com.example.back_end.service;
 
 import com.example.back_end.exception.notfound.NotFound;
 import com.example.back_end.exception.savefailed.SavedFailed;
-import com.example.back_end.model.TravelBudget;
-import com.example.back_end.model.TravelInvitation;
-import com.example.back_end.model.TravelPlan;
-import com.example.back_end.model.Traveler;
+import com.example.back_end.model.*;
 import com.example.back_end.repository.TravelBudgetRepo;
 import com.example.back_end.repository.TravelPlanRepo;
+import com.example.back_end.repository.TravelerDestinationRepo;
 import com.example.back_end.repository.TravelerRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -30,6 +28,9 @@ public class TravelBudgetService {
     @Autowired
     private TravelPlanRepo travelPlanRepo;
 
+    @Autowired
+    private TravelerDestinationRepo travelerDestinationRepo;
+
     @Transactional
     public TravelBudget addTravelBudget(TravelBudget travelBudget,Long travelPlanId) {
 
@@ -42,6 +43,33 @@ public class TravelBudgetService {
 
         return savedTravelBudget;
     }
+
+    @Transactional
+    public TravelBudget addTravelBudgetDestination(TravelBudget travelBudget, Long travelPlanId, Long travelDestinationId) {
+
+        TravelPlan travelPlan = travelPlanRepo.findById(travelPlanId)
+                .orElseThrow(() -> new NotFound());
+
+        travelBudget.setTravelPlan(travelPlan);
+
+        if (travelDestinationId != null) {
+            TravelDestination travelDestination = travelerDestinationRepo.findById(travelDestinationId)
+                    .orElseThrow(() -> new NotFound());
+
+            travelBudget.setTravelDestination(travelDestination);
+
+            travelDestination.setTravelBudget(travelBudget);
+        }
+
+        TravelBudget savedTravelBudget = travelBudgetRepo.save(travelBudget);
+
+        if (travelDestinationId != null) {
+            travelerDestinationRepo.save(travelBudget.getTravelDestination());
+        }
+
+        return savedTravelBudget;
+    }
+
 
     @Transactional
     public TravelBudget updateTravelBudget(TravelBudget travelBudget,Long travelPlanId) {
