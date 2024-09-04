@@ -87,4 +87,8 @@ public class CommunityPostService {
     public List<CommunityPost> getCommunityPostsByUserId(String userId) {
         return communityPostRepo.findByUserId(userId);
     }
+
+    public List<CommunityPost> getCommunityPostsByCityInContent(String city) {
+        return communityPostRepo.findByContentContainingIgnoreCase(city);
+    }
 }
