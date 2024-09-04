@@ -1,7 +1,7 @@
 package com.example.back_end.model;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +27,9 @@ public class TravelDestination {
     @Column(nullable = false)
     private Float longi;
 
+    @Column(nullable = false)
+    private Float rating;
+
     @Column(length = 2048)
     private String imgUrl;
 
@@ -43,17 +46,15 @@ public class TravelDestination {
     @JoinColumn(name = "traveler_id")
     private Traveler traveler;
 
-    private String Date;
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "travelplan_id")
     @JsonBackReference(value = "traveldestinations")
     private TravelPlan travelPlan;
 
-    @OneToOne
-    @JoinColumn(name="budget_id")
+    // Cascade on REMOVE to delete the TravelBudget when TravelDestination is deleted
+    @OneToOne(mappedBy = "travelDestination", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference("travelDestination-travelBudget")
     private TravelBudget travelBudget;
-
-
-
 }

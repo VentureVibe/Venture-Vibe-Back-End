@@ -66,7 +66,7 @@ public class TravelPlan {
     @JsonManagedReference(value = "travelplan-budget")
     private List<TravelBudget> travelBudgets = new ArrayList<>();
 
-    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference(value = "traveldestinations")
     private List<TravelDestination> travelDestinations = new ArrayList<>();
 
