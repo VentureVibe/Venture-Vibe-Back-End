@@ -31,6 +31,7 @@ public class AdminController {
 //    }
 
 
+
     @GetMapping("/users")
     public ResponseEntity<List<TravelerDto>> getAllUsers(){
         List<TravelerDto> users = travelerService.getAllUsers();
@@ -52,4 +53,5 @@ public class AdminController {
         travelerService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
+
 }

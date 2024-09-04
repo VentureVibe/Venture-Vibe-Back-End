@@ -2,6 +2,7 @@ package com.example.back_end.dto;
 
 import com.example.back_end.model.TravelPlan;
 import com.example.back_end.model.Traveler;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TravelerDto {
 
     private String id;
@@ -21,6 +23,12 @@ public class TravelerDto {
     private String email;
 
     private String name;
+
+    private String country;
+
+    private String firstName;
+
+    private String lastName;
 
     private String password;
 

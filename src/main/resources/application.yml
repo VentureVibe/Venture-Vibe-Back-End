@@ -25,3 +25,6 @@ aws:
 
     region: ${AWS_REGION}
 
+payhere:
+  merchantId: ${MERCHANT_ID}
+  merchantSecret: ${MERCHANT_SECRET}

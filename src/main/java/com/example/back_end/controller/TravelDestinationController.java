@@ -41,6 +41,7 @@ public class TravelDestinationController {
 
     @DeleteMapping(value = "/{travelDestinationId}")
     public ResponseEntity<TravelDestinationDTO> deleteTravelDestination(@PathVariable Long travelDestinationId) {
+        System.out.print("Sd");
         TravelDestinationDTO travelDestinationDTO = travelerDestinationService.deleteTravelDestination(travelDestinationId);
         return new ResponseEntity<>(travelDestinationDTO, HttpStatus.OK); // Use HttpStatus.OK for successful deletion
     }
