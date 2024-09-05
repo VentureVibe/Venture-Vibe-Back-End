@@ -71,6 +71,7 @@ public class EventController {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             EventDTO eventDTO = objectMapper.readValue(eventJson, EventDTO.class);
+            //System.out.println(eventDTO.getEventId());
             EventDTO updatedEvent = eventService.updateEvent(eventDTO, image);
             return ResponseEntity.ok(updatedEvent);
         } catch (IOException e) {

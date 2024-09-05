@@ -1,16 +1,13 @@
 package com.example.back_end.service;
 
 import com.example.back_end.dto.UserDTO;
-import com.example.back_end.exception.notfound.NotFound;
 import com.example.back_end.model.User;
 import com.example.back_end.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -49,30 +46,4 @@ public class UserService {
     }
 
 
-
-    public UserDTO updateUser(String userId, UserDTO userDTO) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
-            user.setEmail(userDTO.getEmail());
-            user.setRole(userDTO.getRole());
-            user.setProfileImageUrl(userDTO.getProfileImageUrl());
-
-
-            User updatedUser = userRepository.save(user);
-            return modelMapper.map(updatedUser, UserDTO.class);
-        } else {
-            return null;
-        }
-    }
-
-    public void deleteUser(String userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isPresent()){
-            userRepository.deleteById(userId);
-        }else {
-            throw new NotFound();
-        }
-    }
 }
