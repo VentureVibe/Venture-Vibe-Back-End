@@ -28,6 +28,10 @@ public class TravelPlan {
     @Column(length = 2048, nullable = false)
     private String location;
 
+
+    private Long budget = 0L;
+
+
     @Column(length = 5000)
     private String note;
 
@@ -52,12 +56,19 @@ public class TravelPlan {
 
     @ManyToOne
     @JoinColumn(name ="travelplanOwner")
-
     private Traveler travelPlanOwner;
 
     @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "travelplan-invitations")
     private List<TravelInvitation> travelInvitations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "travelplan-budget")
+    private List<TravelBudget> travelBudgets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "travelPlan", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference(value = "traveldestinations")
+    private List<TravelDestination> travelDestinations = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
