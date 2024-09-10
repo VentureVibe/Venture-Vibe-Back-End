@@ -1,9 +1,13 @@
 package com.example.back_end.service;
 
 import com.example.back_end.dto.ServiceProviderDTO;
+import com.example.back_end.dto.TravelPlanDto;
+import com.example.back_end.exception.notfound.NotFound;
+import com.example.back_end.exception.savefailed.SavedFailed;
 import com.example.back_end.model.Experience;
 import com.example.back_end.model.ServiceProvider;
 import com.example.back_end.model.TravelGuide;
+import com.example.back_end.model.TravelPlan;
 import com.example.back_end.repository.ServiceProviderRepository;
 import com.example.back_end.repository.TravelGuideRepository;
 import org.modelmapper.ModelMapper;
@@ -79,7 +83,25 @@ public class ServiceProviderService {
     }
 
     public void deleteTravelGuide(String id) {
-        System.out.println("awa");
+
         travelGuideRepository.deleteById(id);
     }
+
+
+    public ServiceProviderDTO getServiceProvider(String id) {
+        try {
+            ServiceProvider serviceProvider = serviceProviderRepository.findById(id)
+                    .orElseThrow(() -> new NotFound());
+            System.out.println(serviceProvider);
+            return modelMapper.map(serviceProvider, ServiceProviderDTO .class);
+
+        } catch (Exception e) {
+            throw new SavedFailed();  // Custom exception handling
+        }
+    }
+
+
+
+
+
 }
