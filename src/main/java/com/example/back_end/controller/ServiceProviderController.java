@@ -51,6 +51,13 @@ public class ServiceProviderController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ServiceProviderDTO> getServiceProvider(@PathVariable String id) {
+
+        serviceProviderService.getServiceProvider(id);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/delete-travel-guide/{id}")
     public ResponseEntity<Void> deleteTravelGuide(@PathVariable String id) {
         System.out.println("awa 1 " + id);
