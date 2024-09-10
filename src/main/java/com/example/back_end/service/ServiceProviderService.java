@@ -90,17 +90,15 @@ public class ServiceProviderService {
 
     public ServiceProviderDTO getServiceProvider(String id) {
         try {
-            ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderById(id)
+            ServiceProvider serviceProvider = serviceProviderRepository.findById(id)
                     .orElseThrow(() -> new NotFound());
             System.out.println(serviceProvider);
-            return modelMapper.map(serviceProvider, ServiceProviderDTO.class);
+            return modelMapper.map(serviceProvider, ServiceProviderDTO .class);
 
         } catch (Exception e) {
             throw new SavedFailed();  // Custom exception handling
         }
     }
-
-
 
 
 
