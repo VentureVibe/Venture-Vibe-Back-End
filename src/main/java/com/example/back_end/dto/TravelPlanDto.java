@@ -1,12 +1,14 @@
 package com.example.back_end.dto;
 
-import com.example.back_end.model.*;
+import com.example.back_end.model.TravelDate;
+import com.example.back_end.model.TravelDestination;
+import com.example.back_end.model.TravelInvitation;
+import com.example.back_end.model.Traveler;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

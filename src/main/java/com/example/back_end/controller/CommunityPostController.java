@@ -42,7 +42,7 @@ public class CommunityPostController {
     }
 
     @GetMapping("/explore/{city}")
-    public List<CommunityPost> getCommunityPostByContent(@PathVariable String city) {
+    public List<CommunityPost> getCommunityPostByDestination(@PathVariable String city) {
         return communityPostService.getCommunityPostsByCityInContent(city);
     }
 
