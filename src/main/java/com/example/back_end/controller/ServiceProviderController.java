@@ -41,6 +41,8 @@ public class ServiceProviderController {
 
     @PutMapping("/update-travel-guide")
     public ResponseEntity<Void> updateTravelGuide(@RequestBody ServiceProviderDTO dto) {
+
+
         serviceProviderService.updateTravelGuide(dto);
         return ResponseEntity.ok().build();
     }
@@ -51,16 +53,22 @@ public class ServiceProviderController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ServiceProviderDTO> getServiceProvider(@PathVariable String id) {
-
-        serviceProviderService.getServiceProvider(id);
-        return ResponseEntity.ok().build();
+    @GetMapping("/event-planner/{id}")
+    public ServiceProviderDTO getServiceProvider(@PathVariable String id) {
+        return serviceProviderService.getServiceProvider(id);
     }
+
+    // Get TravelGuide by ID
+    @GetMapping("/travel-guide/{id}")
+    public ServiceProviderDTO getTravelGuide(@PathVariable String id) {
+        return serviceProviderService.getTravelGuide(id);
+    }
+
+
 
     @DeleteMapping("/delete-travel-guide/{id}")
     public ResponseEntity<Void> deleteTravelGuide(@PathVariable String id) {
-        System.out.println("awa 1 " + id);
+
         serviceProviderService.deleteTravelGuide(id);
         return ResponseEntity.ok().build();
     }

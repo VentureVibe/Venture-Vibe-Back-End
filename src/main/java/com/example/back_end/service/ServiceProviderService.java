@@ -66,17 +66,29 @@ public class ServiceProviderService {
     }
 
     public void updateTravelGuide(ServiceProviderDTO dto) {
-        TravelGuide travelGuide = modelMapper.map(dto, TravelGuide.class);
-        travelGuideRepository.save(travelGuide);
+        try {
+            // Map DTO to TravelGuide entity
+            TravelGuide travelGuide = modelMapper.map(dto, TravelGuide.class);
 
-        if (travelGuide.getExperiences() != null) {
-        for (Experience experience : travelGuide.getExperiences()) {
-            experience.setTravelGuide(travelGuide);
+            // Save the TravelGuide entity
+            travelGuide = travelGuideRepository.save(travelGuide);
+
+            // If experiences are not null, associate them with the TravelGuide
+            if (travelGuide.getExperiences() != null) {
+                for (Experience experience : travelGuide.getExperiences()) {
+                    experience.setTravelGuide(travelGuide);
+                }
+                // Save experiences in a separate transaction or update within the same transaction
+                // Assuming the repository handles cascading
+                travelGuideRepository.save(travelGuide);
+            }
+
+        } catch (Exception e) {
+
+            throw new RuntimeException("Error updating travel guide", e); // Rethrow or handle the exception
         }
-        // Save again to update the experiences
-        travelGuide = travelGuideRepository.save(travelGuide);
     }
-    }
+
 
     public void deleteServiceProvider(String id) {
         serviceProviderRepository.deleteById(id);
@@ -88,17 +100,18 @@ public class ServiceProviderService {
     }
 
 
-    public ServiceProviderDTO getServiceProvider(String id) {
-        try {
-            ServiceProvider serviceProvider = serviceProviderRepository.findById(id)
-                    .orElseThrow(() -> new NotFound());
-            System.out.println(serviceProvider);
-            return modelMapper.map(serviceProvider, ServiceProviderDTO .class);
-
-        } catch (Exception e) {
-            throw new SavedFailed();  // Custom exception handling
-        }
+    public ServiceProviderDTO getTravelGuide(String id) {
+        TravelGuide travelGuide = travelGuideRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("TravelGuide not found with id: " + id));
+        return modelMapper.map(travelGuide, ServiceProviderDTO.class);
     }
+
+    public ServiceProviderDTO getServiceProvider(String id) {
+        ServiceProvider serviceProvider = serviceProviderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ServiceProvider not found with id: " + id));
+        return modelMapper.map(serviceProvider, ServiceProviderDTO.class);
+    }
+
 
 
 
