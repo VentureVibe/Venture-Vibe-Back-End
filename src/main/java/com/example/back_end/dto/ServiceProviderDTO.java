@@ -21,4 +21,5 @@ public class ServiceProviderDTO {
     private String planType;
     private Float radius;
     private List<ExperienceDTO> experiences;
+    private List<TravelGuideServiceDTO> travelGuideServices;
 }
