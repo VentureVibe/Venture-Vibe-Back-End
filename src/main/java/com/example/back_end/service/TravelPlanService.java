@@ -200,7 +200,6 @@ public class TravelPlanService {
         } catch (NotFound e) {
             throw new NotFound();
         } catch (Exception ee) {
-            System.out.println(ee);
             throw new SavedFailed();
         }
     }

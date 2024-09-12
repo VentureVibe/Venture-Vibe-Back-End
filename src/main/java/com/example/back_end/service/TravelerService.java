@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -53,10 +54,10 @@ public class TravelerService {
         Traveler savedTraveler;
         try {
             if(travelerDto.getProfileImg() == null) {
-                travelerDto.setProfileImg("https://venturevibeimages.s3.eu-north-1.amazonaws.com/profile-images/ef367f3fb2a5025cc25515b7dded598b.jpg");
+                travelerDto.setProfileImg("https://venturevibes3v2.s3.eu-north-1.amazonaws.com/OIP-removebg-preview.png");
             }
             if(travelerDto.getCoverImg() == null) {
-                travelerDto.setCoverImg("https://venturevibeimages.s3.eu-north-1.amazonaws.com/profile-images/ef367f3fb2a5025cc25515b7dded598b.jpg");
+                travelerDto.setCoverImg("https://venturevibes3v2.s3.eu-north-1.amazonaws.com/OIP-removebg-preview.png");
             }
             if(travelerDto.getRole() == null) {
                 travelerDto.setRole("Traveler");
@@ -103,6 +104,12 @@ public class TravelerService {
         } catch (Exception e) {
             throw new NotFound();
         }
+    }
+
+    public List<TravelerDto> getAllUsers() {
+        List<Traveler> users = travelerRepo.findAll();
+        return users.stream().map(user->modelMapper.map(user,TravelerDto.class))
+                .collect(Collectors.toList());
     }
 
     public TravelerDto updateTraveler(String id, TravelerDto travelerDto) {
