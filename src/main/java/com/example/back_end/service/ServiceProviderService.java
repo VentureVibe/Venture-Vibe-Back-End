@@ -99,6 +99,7 @@ public class ServiceProviderService {
         travelGuideRepository.deleteById(id);
     }
 
+<<<<<<< Updated upstream
 
     public ServiceProviderDTO getTravelGuide(String id) {
         TravelGuide travelGuide = travelGuideRepository.findById(id)
@@ -115,6 +116,19 @@ public class ServiceProviderService {
 
 
 
+=======
+    public ServiceProviderDTO getTravelGuide(String id) {
+    TravelGuide travelGuide = travelGuideRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("TravelGuide not found with id: " + id));
+    return modelMapper.map(travelGuide, ServiceProviderDTO.class);
+}
+
+    public ServiceProviderDTO getServiceProvider(String id) {
+    ServiceProvider serviceProvider = serviceProviderRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("ServiceProvider not found with id: " + id));
+    return modelMapper.map(serviceProvider, ServiceProviderDTO.class);
+}
+>>>>>>> Stashed changes
 
 
 }

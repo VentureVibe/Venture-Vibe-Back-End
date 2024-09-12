@@ -72,4 +72,15 @@ public class ServiceProviderController {
         serviceProviderService.deleteTravelGuide(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/event-planner/{id}")
+    public ServiceProviderDTO getServiceProvider(@PathVariable String id) {
+        return serviceProviderService.getServiceProvider(id);
+    }
+
+    // Get TravelGuide by ID
+    @GetMapping("/travel-guide/{id}")
+    public ServiceProviderDTO getTravelGuide(@PathVariable String id) {
+        return serviceProviderService.getTravelGuide(id);
+    }
 }

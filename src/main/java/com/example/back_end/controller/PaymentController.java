@@ -25,4 +25,28 @@ public class PaymentController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/notify")
+    public ResponseEntity<String> handlePaymentNotification(@RequestParam Map<String, String> notificationData) {
+        String paymentId = notificationData.get("payment_id");
+        String status = notificationData.get("status_code");
+
+        System.out.println("payment id : " + paymentId);
+        System.out.println("status code : " + status);
+
+        // Process the payment notification data here
+        if ("2".equals(status)) { // '2' indicates successful payment
+            // Handle successful payment logic (e.g., save paymentId, orderId to the database)
+        }
+
+        return ResponseEntity.ok("Notification received");
+    }
+
+    @PostMapping("/refund")
+    public ResponseEntity<Map<String, Object>> refundPayment(@RequestParam String paymentId, @RequestParam String description) {
+        System.out.println("backend ekata awa");
+        Map<String, Object> response = hashService.refundPayment(paymentId, description);
+        System.out.println("refund payment id : " + paymentId);
+        return ResponseEntity.ok(response);
+    }
+
 }
