@@ -11,9 +11,7 @@ public class WarehouseProductivity {
     public static void main(String[] args) {
         initializeData();
         calculateProductivityScore();
-        System.out.println("App Name: " + APP_NAME);
-        System.out.println("Version: " + VERSION);
-        System.out.printf("Productivity Score: %.2f%%\n", productivityScore);
+        generateReport();
     }
 
     private static void initializeData() {
@@ -29,6 +27,18 @@ public class WarehouseProductivity {
             totalEfficiency += worker.calculateEfficiency();
         }
         productivityScore = totalEfficiency / workers.size();
+    }
+
+    private static void generateReport() {
+        System.out.println("--- " + APP_NAME + " Report ---");
+        System.out.println("Version: " + VERSION);
+        System.out.printf("Productivity Score: %.2f%%\n", productivityScore);
+        for (Worker worker : workers) {
+            System.out.println(worker);
+        }
+        for (Section section : sections) {
+            System.out.println(section);
+        }
     }
 }
 
