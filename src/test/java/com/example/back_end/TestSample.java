@@ -1,104 +1,3 @@
-// WarehouseProductivity.java
-public class WarehouseProductivity {
-    private static final String APP_NAME = "Warehouse Productivity Monitoring";
-    private static final String VERSION = "1.0.0";
-    private static double productivityScore = 0.0;
-
-    public static void main(String[] args) {
-        System.out.println("App Name: " + APP_NAME);
-        System.out.println("Version: " + VERSION);
-    }
-}
-
-public class WarehouseProductivity {
-    private static final String APP_NAME = "Warehouse Productivity Monitoring";
-    private static final String VERSION = "1.0.0";
-    private static double productivityScore = 0.0;
-
-    public static void main(String[] args) {
-        System.out.println("App Name: " + APP_NAME);
-        System.out.println("Version: " + VERSION);
-    }
-}
-
-// Worker class
-class Worker {
-    private int id;
-    private String name;
-    private int tasksCompleted;
-    private int totalTasks;
-
-    public Worker(int id, String name, int tasksCompleted, int totalTasks) {
-        this.id = id;
-        this.name = name;
-        this.tasksCompleted = tasksCompleted;
-        this.totalTasks = totalTasks;
-    }
-
-    public double calculateEfficiency() {
-        return (double) tasksCompleted / totalTasks * 100;
-    }
-
-    public String toString() {
-        return String.format("Worker{id=%d, name='%s', efficiency=%.2f%%}", id, name, calculateEfficiency());
-    }
-}
-
-public class WarehouseProductivity {
-    private static final String APP_NAME = "Warehouse Productivity Monitoring";
-    private static final String VERSION = "1.0.0";
-    private static double productivityScore = 0.0;
-
-    public static void main(String[] args) {
-        System.out.println("App Name: " + APP_NAME);
-        System.out.println("Version: " + VERSION);
-    }
-}
-
-// Worker class
-class Worker {
-    private int id;
-    private String name;
-    private int tasksCompleted;
-    private int totalTasks;
-
-    public Worker(int id, String name, int tasksCompleted, int totalTasks) {
-        this.id = id;
-        this.name = name;
-        this.tasksCompleted = tasksCompleted;
-        this.totalTasks = totalTasks;
-    }
-
-    public double calculateEfficiency() {
-        return (double) tasksCompleted / totalTasks * 100;
-    }
-
-    public String toString() {
-        return String.format("Worker{id=%d, name='%s', efficiency=%.2f%%}", id, name, calculateEfficiency());
-    }
-}
-
-// Section class
-class Section {
-    private String name;
-    private int totalTasks;
-    private int tasksCompleted;
-
-    public Section(String name, int totalTasks, int tasksCompleted) {
-        this.name = name;
-        this.totalTasks = totalTasks;
-        this.tasksCompleted = tasksCompleted;
-    }
-
-    public double calculateEfficiency() {
-        return (double) tasksCompleted / totalTasks * 100;
-    }
-
-    public String toString() {
-        return String.format("Section{name='%s', efficiency=%.2f%%}", name, calculateEfficiency());
-    }
-}
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,8 +10,10 @@ public class WarehouseProductivity {
 
     public static void main(String[] args) {
         initializeData();
+        calculateProductivityScore();
         System.out.println("App Name: " + APP_NAME);
         System.out.println("Version: " + VERSION);
+        System.out.printf("Productivity Score: %.2f%%\n", productivityScore);
     }
 
     private static void initializeData() {
@@ -121,7 +22,14 @@ public class WarehouseProductivity {
             sections.add(new Section("Section" + i, 100, 80 + i));
         }
     }
+
+    private static void calculateProductivityScore() {
+        double totalEfficiency = 0;
+        for (Worker worker : workers) {
+            totalEfficiency += worker.calculateEfficiency();
+        }
+        productivityScore = totalEfficiency / workers.size();
+    }
 }
 
 // Worker and Section classes from previous commits
-
