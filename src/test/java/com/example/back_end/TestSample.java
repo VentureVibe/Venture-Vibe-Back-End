@@ -98,3 +98,30 @@ class Section {
         return String.format("Section{name='%s', efficiency=%.2f%%}", name, calculateEfficiency());
     }
 }
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class WarehouseProductivity {
+    private static final String APP_NAME = "Warehouse Productivity Monitoring";
+    private static final String VERSION = "1.0.0";
+    private static double productivityScore = 0.0;
+    private static List<Worker> workers = new ArrayList<>();
+    private static List<Section> sections = new ArrayList<>();
+
+    public static void main(String[] args) {
+        initializeData();
+        System.out.println("App Name: " + APP_NAME);
+        System.out.println("Version: " + VERSION);
+    }
+
+    private static void initializeData() {
+        for (int i = 1; i <= 10; i++) {
+            workers.add(new Worker(i, "Worker" + i, 80 + i, 100));
+            sections.add(new Section("Section" + i, 100, 80 + i));
+        }
+    }
+}
+
+// Worker and Section classes from previous commits
+
