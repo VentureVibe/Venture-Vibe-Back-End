@@ -12,6 +12,7 @@ public class WarehouseProductivity {
         initializeData();
         calculateProductivityScore();
         generateReport();
+        performExtraCalculations();
     }
 
     private static void initializeData() {
@@ -38,6 +39,12 @@ public class WarehouseProductivity {
         }
         for (Section section : sections) {
             System.out.println(section);
+        }
+    }
+
+    private static void performExtraCalculations() {
+        for (int i = 1; i <= 10; i++) {
+            System.out.println("Extra Calculation #" + i);
         }
     }
 }
