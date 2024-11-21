@@ -51,10 +51,34 @@ public class ServiceProviderController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/event-planner/{id}")
+    public ServiceProviderDTO getServiceProvider(@PathVariable String id) {
+        return serviceProviderService.getServiceProvider(id);
+    }
+
+    // Get TravelGuide by ID
+    @GetMapping("/travel-guide/{id}")
+    public ServiceProviderDTO getTravelGuide(@PathVariable String id) {
+        return serviceProviderService.getTravelGuide(id);
+    }
+
+
+
     @DeleteMapping("/delete-travel-guide/{id}")
     public ResponseEntity<Void> deleteTravelGuide(@PathVariable String id) {
-        System.out.println("awa 1 " + id);
+
         serviceProviderService.deleteTravelGuide(id);
         return ResponseEntity.ok().build();
     }
+
+    /*@GetMapping("/event-planner/{id}")
+    public ServiceProviderDTO getServiceProvider(@PathVariable String id) {
+        return serviceProviderService.getServiceProvider(id);
+    }
+
+    // Get TravelGuide by ID
+    @GetMapping("/travel-guide/{id}")
+    public ServiceProviderDTO getTravelGuide(@PathVariable String id) {
+        return serviceProviderService.getTravelGuide(id);
+    }*/
 }
