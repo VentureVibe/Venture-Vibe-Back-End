@@ -27,3 +27,4 @@ aws:
 payhere:
   merchantId: ${MERCHANT_ID}
   merchantSecret: ${MERCHANT_SECRET}
+  authorizationCode: ${AUTHORIZATION_CODE}
