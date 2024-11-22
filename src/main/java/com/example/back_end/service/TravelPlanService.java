@@ -173,7 +173,7 @@ public class TravelPlanService {
 
             if (travelInviteList != null && !travelInviteList.isEmpty()) {
                 for (String travelerId2 : travelInviteList) {
-                   
+
                     Traveler traveler2 = travelerRepo.findById(travelerId2)
                             .orElseThrow(() -> new NotFound());
 
@@ -200,7 +200,6 @@ public class TravelPlanService {
         } catch (NotFound e) {
             throw new NotFound();
         } catch (Exception ee) {
-            System.out.println(ee);
             throw new SavedFailed();
         }
     }
@@ -255,7 +254,7 @@ public class TravelPlanService {
             return modelMapper.map(travelPlan, TravelPlanDto.class);
         }
         catch(Exception e){
-               throw new DeleteFailed();
+            throw new DeleteFailed();
         }
 
 

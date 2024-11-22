@@ -22,6 +22,9 @@ aws:
   secretKey: ${AWS_SECRET_KEY}
   s3:
     bucketName: ${S3_BUCKET_NAME}
-
     region: ${AWS_REGION}
 
+payhere:
+  merchantId: ${MERCHANT_ID}
+  merchantSecret: ${MERCHANT_SECRET}
+  authorizationCode: ${AUTHORIZATION_CODE}
