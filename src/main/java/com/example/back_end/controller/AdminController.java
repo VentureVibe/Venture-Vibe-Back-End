@@ -21,9 +21,14 @@ public class AdminController {
     @Autowired
     private TravelerService travelerService;
 
-    public AdminController(UserService userService) {
-        this.userService = userService;
+//    public AdminController(UserService userService) {
+//        this.userService = userService;
+//
+//    }
 
+    public AdminController(UserService userService, TravelerService travelerService){
+        this.userService = userService;
+        this.travelerService = travelerService;
     }
 
 //    public AdminController(TravelerService travelerService){
@@ -39,23 +44,27 @@ public class AdminController {
 //    }
 
 
+//    @GetMapping("/users")
+//    public ResponseEntity<List<TravelerDto>> getAllTravelers() {
+//        List<TravelerDto> users = travelerService.getAllUsers();
+//        return ResponseEntity.ok(users);
+//
+//    }
+
     @GetMapping("/users")
     public ResponseEntity<List<TravelerDto>> getAllTravelers() {
-        List<TravelerDto> users = travelerService.getAllUsers();
-        return ResponseEntity.ok(users);
-
+        List<TravelerDto> travelers = travelerService.getAllUsers(); // Renamed method in service
+        return ResponseEntity.ok(travelers);
     }
 
 
 
+
+
     @PutMapping("/users/{userId}")
-    public ResponseEntity<TravelerDto> updateUser(@PathVariable String userId, @RequestBody TravelerDto travelerDto){
-        TravelerDto updatedUser = travelerService.updateUser(userId,travelerDto);
-        if(updatedUser != null){
-            return ResponseEntity.ok(updatedUser);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<TravelerDto> updateUser(@PathVariable String userId, @RequestBody TravelerDto travelerDto) {
+        TravelerDto updatedUser = travelerService.updateUser(userId, travelerDto);
+        return ResponseEntity.ok(updatedUser);
     }
 
     //    @DeleteMapping("/users/{userId}")
