@@ -32,16 +32,19 @@ public class AdminController {
 
 
 
+//    @GetMapping("/users")
+//    public ResponseEntity<List<TravelerDto>> getAllUsers(){
+//        List<TravelerDto> users = travelerService.getAllUsers();
+//        return ResponseEntity.ok(users);
+//    }
+
+
     @GetMapping("/users")
-    public ResponseEntity<List<TravelerDto>> getAllUsers(){
+    public ResponseEntity<List<TravelerDto>> getAllTravelers() {
         List<TravelerDto> users = travelerService.getAllUsers();
         return ResponseEntity.ok(users);
-    }
 
-//    public ResponseEntity<List<TravelerDto>> getAllTravelers() {
-//        List<TravelerDto> users = travelerService.getAllUsers();
-//
-//    }
+    }
 
 
 
@@ -55,7 +58,7 @@ public class AdminController {
         }
     }
 
-//    @DeleteMapping("/users/{userId}")
+    //    @DeleteMapping("/users/{userId}")
 //    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
 //        travelerService.deleteUser(userId);
 //        return ResponseEntity.noContent().build();
