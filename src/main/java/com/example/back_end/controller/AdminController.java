@@ -38,6 +38,13 @@ public class AdminController {
         return ResponseEntity.ok(users);
     }
 
+//    public ResponseEntity<List<TravelerDto>> getAllTravelers() {
+//        List<TravelerDto> users = travelerService.getAllUsers();
+//
+//    }
+
+
+
     @PutMapping("/users/{userId}")
     public ResponseEntity<TravelerDto> updateUser(@PathVariable String userId, @RequestBody TravelerDto travelerDto){
         TravelerDto updatedUser = travelerService.updateUser(userId,travelerDto);
@@ -48,10 +55,17 @@ public class AdminController {
         }
     }
 
+//    @DeleteMapping("/users/{userId}")
+//    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
+//        travelerService.deleteUser(userId);
+//        return ResponseEntity.noContent().build();
+//    }
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
-        travelerService.deleteUser(userId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<TravelerDto> deleteUser(@PathVariable String userId){
+        travelerService.deleteTraveler(userId);
+        return ResponseEntity.ok().build();
     }
+
+
 
 }
