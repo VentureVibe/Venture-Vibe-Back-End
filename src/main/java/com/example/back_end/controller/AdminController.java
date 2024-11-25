@@ -3,6 +3,7 @@ package com.example.back_end.controller;
 
 import com.example.back_end.dto.TravelerDto;
 import com.example.back_end.dto.UserDTO;
+import com.example.back_end.service.PostReportService;
 import com.example.back_end.service.TravelerService;
 import com.example.back_end.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class AdminController {
     private final UserService userService;
     @Autowired
     private TravelerService travelerService;
+    @Autowired
+    private PostReportService postReportService;
 
 //    public AdminController(UserService userService) {
 //        this.userService = userService;
@@ -77,6 +80,19 @@ public class AdminController {
         travelerService.deleteTraveler(userId);
         return ResponseEntity.ok().build();
     }
+
+
+//    @GetMapping("/content/")
+//    public ResponseEntity<List<TravelerDto>> getContentTraveler() {
+//        // Fetch post reports (if relevant to logic)
+//        List<PostReportDto> postReports = postReportService.getAllPostReports();
+//
+//        // Fetch all travelers or specific traveler data
+//        List<TravelerDto> travelers = travelerService.getAllUsers();
+//
+//        // Return traveler data wrapped in ResponseEntity
+//        return ResponseEntity.ok(travelers);
+//    }
 
 
 
