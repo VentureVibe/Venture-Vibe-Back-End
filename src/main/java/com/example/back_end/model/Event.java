@@ -21,4 +21,6 @@ public class Event {
     private String contactEmail;
     private String contactPhone;
     private String eventImage;
+    private String eventStatus;
+
 }

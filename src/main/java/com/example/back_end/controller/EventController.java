@@ -84,4 +84,29 @@ public class EventController {
         eventService.deleteEvent(eventId);
         return ResponseEntity.noContent().build();
     }
+
+    // Fetch all pending events
+    @GetMapping("/pending")
+    public ResponseEntity<Page<EventDTO>> getPendingEvents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<EventDTO> pendingEvents = eventService.getPendingEvents(pageable);
+        return ResponseEntity.ok(pendingEvents);
+    }
+
+    // Approve an event
+    @PutMapping("/{eventId}/approve")
+    public ResponseEntity<EventDTO> approveEvent(@PathVariable("eventId") Integer eventId) {
+        EventDTO approvedEvent = eventService.approveEvent(eventId);
+        return ResponseEntity.ok(approvedEvent);
+    }
+
+    // Reject an event
+    @PutMapping("/{eventId}/reject")
+    public ResponseEntity<EventDTO> rejectEvent(@PathVariable("eventId") Integer eventId) {
+        EventDTO rejectedEvent = eventService.rejectEvent(eventId);
+        return ResponseEntity.ok(rejectedEvent);
+    }
+
 }
