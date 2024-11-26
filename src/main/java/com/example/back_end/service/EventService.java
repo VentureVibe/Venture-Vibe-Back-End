@@ -69,5 +69,29 @@ public class EventService {
         imageService.deleteImageFromS3(event.getEventImage());
         eventRepository.delete(event);
     }
+
+
+
+    public Page<EventDTO> getPendingEvents(Pageable pageable) {
+        return eventRepository.findByEventStatus("PENDING", pageable)
+                .map(event -> modelMapper.map(event, EventDTO.class));
+    }
+
+    public EventDTO approveEvent(Integer eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+        event.setEventStatus("APPROVED");
+        Event updatedEvent = eventRepository.save(event);
+        return modelMapper.map(updatedEvent, EventDTO.class);
+    }
+
+    public EventDTO rejectEvent(Integer eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+        event.setEventStatus("REJECTED");
+        Event updatedEvent = eventRepository.save(event);
+        return modelMapper.map(updatedEvent, EventDTO.class);
+    }
+
 }
 
