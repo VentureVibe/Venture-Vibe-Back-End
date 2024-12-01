@@ -3,9 +3,11 @@ package com.example.back_end.controller;
 
 import com.example.back_end.dto.TravelerDto;
 import com.example.back_end.dto.UserDTO;
+import com.example.back_end.repository.SubscriberRepository;
 import com.example.back_end.service.PostReportService;
 import com.example.back_end.service.TravelerService;
 import com.example.back_end.service.UserService;
+import org.reactivestreams.Subscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,8 @@ public class AdminController {
     private TravelerService travelerService;
     @Autowired
     private PostReportService postReportService;
+    @Autowired
+    private SubscriberRepository subscriberRepository;
 
 //    public AdminController(UserService userService) {
 //        this.userService = userService;
@@ -93,6 +97,8 @@ public class AdminController {
 //        // Return traveler data wrapped in ResponseEntity
 //        return ResponseEntity.ok(travelers);
 //    }
+
+
 
 
 
