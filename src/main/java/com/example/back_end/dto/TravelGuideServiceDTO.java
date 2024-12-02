@@ -16,5 +16,13 @@ public class TravelGuideServiceDTO {
 
     private String service;
 
+    private String title;
+
+    private String img;
+
     private TravelGuide travelGuide;
+
+    private Float price;
+
+    private String status;
 }

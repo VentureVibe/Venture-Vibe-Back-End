@@ -39,6 +39,12 @@ public class ServiceProviderController {
         return ResponseEntity.ok(travelGuides);
     }
 
+    @GetMapping("/event-planners")
+    public ResponseEntity<List<ServiceProviderDTO>> getAllEventPlanners() {
+        List<ServiceProviderDTO> eventPlanners = serviceProviderService.getAllEventPlanners();
+        return ResponseEntity.ok(eventPlanners);
+    }
+
     @PutMapping("/update-event-planner")
     public ResponseEntity<Void> updateEventPlanner(@RequestBody ServiceProviderDTO dto) {
         serviceProviderService.updateEventPlanner(dto);
@@ -154,4 +160,5 @@ public class ServiceProviderController {
         serviceProviderService.deleteTravelGuide(id);
         return ResponseEntity.ok().build();
     }
+
 }

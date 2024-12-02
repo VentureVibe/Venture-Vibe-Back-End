@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value="/api/v1/travelguideservice")
 public class TravelGuideServiceController {
@@ -33,5 +35,11 @@ public class TravelGuideServiceController {
         TravelGuideServiceDTO deleteTraveler = travelGuideServiceService.deleteTravelGuideService(id);
         return new ResponseEntity<>(deleteTraveler, HttpStatus.CREATED);
     }
+
+    @GetMapping("/travel-guides")
+    public List<TravelGuideServiceDTO> getAllTravelGuideServices() {
+        return travelGuideServiceService.getAllTravelGuideServices();
+    }
+
 
 }

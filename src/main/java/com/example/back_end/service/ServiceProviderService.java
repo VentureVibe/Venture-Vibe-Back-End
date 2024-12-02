@@ -7,7 +7,6 @@ import com.example.back_end.exception.savefailed.SavedFailed;
 import com.example.back_end.model.Experience;
 import com.example.back_end.model.ServiceProvider;
 import com.example.back_end.model.TravelGuide;
-import com.example.back_end.model.TravelPlan;
 import com.example.back_end.repository.ServiceProviderRepository;
 import com.example.back_end.repository.TravelGuideRepository;
 import org.modelmapper.ModelMapper;
@@ -154,6 +153,7 @@ import com.example.back_end.repository.TravelGuideRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+    
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -168,6 +168,14 @@ public class ServiceProviderService {
 
     @Autowired
     private ModelMapper modelMapper;
+  
+  public List<ServiceProviderDTO> getAllEventPlanners() {
+        // Logic to fetch all event planners from the database
+        return serviceProviderRepository.findAll()
+                .stream()
+                .map(eventPlanner -> modelMapper.map(eventPlanner, ServiceProviderDTO.class))
+                .collect(Collectors.toList());
+    }
 
     public ServiceProviderDTO addEventPlanner(ServiceProviderDTO dto) {
         ServiceProvider serviceProvider = modelMapper.map(dto, ServiceProvider.class);

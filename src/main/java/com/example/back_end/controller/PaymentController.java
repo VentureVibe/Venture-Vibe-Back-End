@@ -2,6 +2,7 @@ package com.example.back_end.controller;
 
 import com.example.back_end.dto.HashRequestDTO;
 import com.example.back_end.service.HashService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 @CrossOrigin("http://localhost:5173")
 public class PaymentController {
 
+    @Autowired
     private final HashService hashService;
 
     public PaymentController(HashService hashService) {
