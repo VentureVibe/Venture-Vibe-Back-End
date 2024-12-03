@@ -1,12 +1,15 @@
 package com.example.back_end.controller;
 
 import com.example.back_end.dto.HashRequestDTO;
+import com.example.back_end.dto.PaymentDTO;
 import com.example.back_end.service.HashService;
+import com.example.back_end.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,6 +52,27 @@ public class PaymentController {
         Map<String, Object> response = hashService.refundPayment(paymentId, description);
         System.out.println("refund payment id : " + paymentId);
         return ResponseEntity.ok(response);
+    }
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @PostMapping("/store")
+    public ResponseEntity<PaymentDTO> storePayment(@RequestBody PaymentDTO paymentDTO) {
+        PaymentDTO savedPayment = paymentService.savePayment(paymentDTO);
+        return ResponseEntity.ok(savedPayment);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<PaymentDTO>> getPaymentsByCategory(@PathVariable String category) {
+        List<PaymentDTO> payments = paymentService.getPaymentsByCategory(category);
+        return ResponseEntity.ok(payments);
+    }
+
+    @GetMapping("/receiver/{receiver}")
+    public ResponseEntity<List<PaymentDTO>> getPaymentsByReceiver(@PathVariable String receiver) {
+        List<PaymentDTO> payments = paymentService.getPaymentsByReceiver(receiver);
+        return ResponseEntity.ok(payments);
     }
 
 }
