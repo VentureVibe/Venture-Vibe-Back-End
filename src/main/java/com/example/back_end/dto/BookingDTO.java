@@ -12,7 +12,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookingDTO {
     private Long id;
-    private Value.Str travelGuideId;
+    private String travelGuideId;
     private String bookerId;
     private Double amount;
     private Integer noOfDays;
