@@ -1,5 +1,6 @@
 package com.example.back_end.service;
 
+import com.example.back_end.dto.PostReportDTO;
 import com.example.back_end.model.CommunityPost;
 import com.example.back_end.model.PostReport;
 import com.example.back_end.model.Traveler;
@@ -34,6 +35,20 @@ public class PostReportService {
         postReport.setUserReported(traveler);
 
         return postReportRepository.save(postReport);
+    }
+
+    @Transactional
+    public PostReport updatePostReportById(PostReportDTO postReportDTO, Long id) {
+        PostReport existingPostReport = postReportRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("PostReport with id " + id + " not found"));
+
+        // Update status and reason based on the PostReportDTO
+        existingPostReport.setStatus(postReportDTO.getStatus());
+        if (postReportDTO.getReason() != null) {
+            existingPostReport.setReason(postReportDTO.getReason());
+        }
+
+        return postReportRepository.save(existingPostReport);
     }
 
     public List<PostReport> getAllPostReports() {

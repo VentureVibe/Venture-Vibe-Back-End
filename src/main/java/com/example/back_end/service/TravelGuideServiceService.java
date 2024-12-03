@@ -17,6 +17,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @Transactional
@@ -31,6 +33,15 @@ public class TravelGuideServiceService {
 
     @Autowired
     TravelerRepo travelerRepo;
+
+
+
+    public List<TravelGuideServiceDTO> getAllTravelGuideServices() {
+        List<TravelGuideServices> services = travelGuideServiceRepo.findAll();
+        return services.stream()
+                .map(service -> modelMapper.map(service, TravelGuideServiceDTO.class))
+                .toList();
+    }
 
     public TravelGuideServiceDTO addTravelGuideService(TravelGuideServiceDTO travelGuideServiceDTO) {
 
