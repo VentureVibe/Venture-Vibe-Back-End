@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/api/v1/travelguideservice")
+@CrossOrigin("http://localhost:5173")
 public class TravelGuideServiceController {
 
     @Autowired

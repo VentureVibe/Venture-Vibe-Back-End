@@ -1,10 +1,14 @@
 package com.example.back_end.model;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 
 @Entity
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmailSubscriber {
 
     @Id
@@ -14,20 +18,9 @@ public class EmailSubscriber {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
+   @OneToOne
+   @JoinColumn(name = "traveler_id",referencedColumnName = "id")
+   private Traveler traveler;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
