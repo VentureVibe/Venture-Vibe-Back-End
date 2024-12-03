@@ -161,4 +161,11 @@ public class ServiceProviderController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/event-planner")
+    public ResponseEntity<List<ServiceProviderDTO>> getAllEventPlanners() {
+        List<ServiceProviderDTO> eventPlanner = serviceProviderService.getAllEventPlanners();
+        return ResponseEntity.ok(eventPlanner);
+    }
+
+
 }

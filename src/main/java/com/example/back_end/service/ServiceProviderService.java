@@ -152,8 +152,10 @@ import com.example.back_end.repository.ServiceProviderRepository;
 import com.example.back_end.repository.TravelGuideRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-    
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -169,11 +171,18 @@ public class ServiceProviderService {
     @Autowired
     private ModelMapper modelMapper;
   
-  public List<ServiceProviderDTO> getAllEventPlanners() {
+  /*public List<ServiceProviderDTO> getAllEventPlanners() {
         // Logic to fetch all event planners from the database
         return serviceProviderRepository.findAll()
                 .stream()
                 .map(eventPlanner -> modelMapper.map(eventPlanner, ServiceProviderDTO.class))
+                .collect(Collectors.toList());
+    }*/
+
+    public List<ServiceProviderDTO> getAllEventPlanners() {
+        List<ServiceProvider> eventPlanners = serviceProviderRepository.findAllByRole("EventPlanner");
+        return eventPlanners.stream()
+                .map(serviceProvider -> modelMapper.map(serviceProvider, ServiceProviderDTO.class))
                 .collect(Collectors.toList());
     }
 
