@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.reactivestreams.Subscriber;
 
 
 import java.util.HashSet;
@@ -119,6 +120,9 @@ public class Traveler {
     @OneToMany(mappedBy = "travelPlanInvitee", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "travelplan-invitee")
     private Set<TravelInvitation> travelPlanInvitation = new HashSet<>();
+
+    @OneToOne(mappedBy = "traveler", cascade = CascadeType.ALL)
+    private EmailSubscriber emailSubscriber;
 
 
 }

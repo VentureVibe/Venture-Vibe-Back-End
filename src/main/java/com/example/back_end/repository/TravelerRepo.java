@@ -15,4 +15,5 @@ public interface TravelerRepo extends JpaRepository<Traveler,String> {
 
     Traveler findByEmail(String email);
 
+
 }

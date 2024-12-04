@@ -3,6 +3,7 @@ package com.example.back_end.controller;
 
 import com.example.back_end.dto.TravelerDto;
 import com.example.back_end.dto.UserDTO;
+import com.example.back_end.model.EmailSubscriber;
 import com.example.back_end.repository.SubscriberRepository;
 import com.example.back_end.service.PostReportService;
 import com.example.back_end.service.TravelerService;
@@ -25,8 +26,7 @@ public class AdminController {
     private TravelerService travelerService;
     @Autowired
     private PostReportService postReportService;
-    @Autowired
-    private SubscriberRepository subscriberRepository;
+
 
 //    public AdminController(UserService userService) {
 //        this.userService = userService;

@@ -3,13 +3,16 @@ package com.example.back_end.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PaymentDTO {
+public class ReviewDTO {
     private Long id;
     private String sender;
     private String receiver;
-    private String dateTime;
-    private Double amount;
-    private String category;
+    private Double rating;
+    private LocalDate date;
+    private String comment;
+    private String tourDuration;
 }
